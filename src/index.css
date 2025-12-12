@@ -1,0 +1,165 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+@import "tailwindcss";
+
+@layer components {
+  .text-gradient-color {
+    @apply bg-gradient-to-b from-[#0c3188] to-[#0c3188] inline-block text-transparent bg-clip-text;
+  }
+  .bg-gradient-color {
+    @apply bg-gradient-to-tl from-[#0c3188] to-[#0c3188];
+  }
+}
+
+@theme {
+  --color-primary-color: #ffffff;
+  --color-background: #ffffff;
+  --color-secondary-color: #0c3188;
+  --color-base-color: #2c2c2c;
+  --color-anchor: #0c3188;
+  --color-highlight: #efefef;
+  --color-input-color: #efefef;
+  --color-error: #e53935;
+  --color-success: #00c566;
+  --color-warning: #facc15;
+}
+
+html,
+body {
+  font-family: "Nunito", sans-serif;
+  scroll-behavior: smooth;
+  background-color: #ffffff;
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(45deg, #0c3188, #0c3188);
+  margin-left: 2px;
+  margin-right: 2px;
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: #ffffff;
+}
+th {
+  border-bottom: 0px solid #0a0a08 !important;
+}
+
+.swiper-pagination-bullet {
+  width: 15px !important;
+  height: 15px !important;
+  background-color: #0c3188 !important;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.active {
+  color: #f9f9f9 !important;
+}
+
+/** ANTD Theme Change  */
+
+/** SIDEBAR: Only added a border to the left of the menu items and changed the background color of the selected item. */
+.ant-menu-item {
+  background-color: transparent !important;
+  border-left: 6px solid #0c318800 !important;
+  border-radius: 0px !important;
+  margin: 5px !important;
+}
+.ant-menu-item .ant-menu-item-title {
+  background-color: transparent !important;
+  border-left: 6px solid #0c318800 !important;
+  border-radius: 0px !important;
+  margin: 5px !important;
+}
+.ant-menu-item-selected {
+  background-color: transparent !important;
+  border-left: 6px solid #0c3188 !important;
+  border-radius: 0px !important;
+  margin: 5px !important;
+}
+.ant-menu-submenu .ant-menu-submenu-title {
+  background-color: transparent !important;
+  border-left: 6px solid #0c318800 !important;
+  border-radius: 0px !important;
+  margin: 5px !important;
+}
+
+.ant-menu-sub .ant-menu-title-content {
+  font-size: 14px !important;
+}
+
+.ant-menu-submenu-selected .ant-menu-submenu-title {
+  background-color: transparent !important;
+  border-left: 6px solid #0c3188 !important;
+  border-radius: 0px !important;
+}
+.ant-menu-submenu-selected .ant-menu-item {
+  border-left: 6px solid #0c318800 !important;
+  background-color: transparent !important;
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+  margin: 5px !important;
+  margin-bottom: 5px !important;
+  border-radius: 0px !important;
+}
+.ant-menu-submenu-selected .ant-menu-item-selected {
+  border-left: 6px solid #0c318800 !important;
+  background-color: transparent !important;
+  padding-top: 20px !important;
+  padding-bottom: 20px !important;
+  margin: 5px !important;
+  margin-bottom: 5px !important;
+}
+.ant-menu-submenu-selected .ant-menu-item-selected a {
+  color: #0c3188 !important;
+}
+.ant-menu-submenu-selected .ant-menu-item-selected .ant-menu-item-icon {
+  color: #0c3188 !important;
+}
+.ant-menu-title-content .active {
+  color: #0c3188 !important;
+}
+
+/** SIDEBAR:  Selected Backgorund Color Change  */
+
+/* .ant-menu-submenu-selected .ant-menu-submenu-title {
+  background-color: #0a0a08 !important;
+}
+.ant-menu-submenu-selected .ant-menu-item-selected {
+  background-color: transparent !important;
+}
+.ant-menu-submenu-selected .ant-menu-item-selected a {
+  color: #0a0a08 !important;
+}
+.ant-menu-submenu-selected .ant-menu-item-selected .ant-menu-item-icon {
+  color: #0a0a08 !important;
+} */
+
+/** Table:  Sorter Icon Color Change  */
+/* .ant-table-column-sorters .ant-table-column-sorter-inner {
+  color: #ffffff99 !important;
+}
+.ant-table-column-sorters .ant-table-column-sorter-inner .active {
+  color: #0c3188 !important;
+} */
+
+.ant-picker-time-panel-cell-selected .ant-picker-time-panel-cell-inner {
+  background-color: #0c3188 !important;
+  color: #ffffff !important;
+}
+
+.ant-picker-now-btn {
+  color: #0c3188 !important;
+}
+
+.ant-picker-ok button {
+  background-color: #0c3188 !important;
+  color: #ffffff !important;
+}
