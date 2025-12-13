@@ -21,6 +21,7 @@ import MessagePage from "../pages/Admin/MessagePage";
 import AdminAllCvDispathc from "../pages/Admin/AdminAllCvDispathc";
 import AdminAllPlacement from "../pages/Admin/AdminAllPlacement";
 import AdminAllCandidates from "../pages/Admin/AdminAllCandidates";
+import AdminAllJobBoard from "../pages/Admin/AdminAllJobBoard";
 
 export const adminPaths = [
   {
@@ -35,6 +36,13 @@ export const adminPaths = [
     element: <AdminAllCandidates />,
     key: "all-candidates",
     name: "Candidates",
+    icon: userLogo,
+  },
+  {
+    path: "job-board",
+    element: <AdminAllJobBoard />,
+    key: "job-board",
+    name: "Job Board",
     icon: userLogo,
   },
   {
