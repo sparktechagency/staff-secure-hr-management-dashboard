@@ -108,7 +108,7 @@ const JobBoardTable: React.FC<JobBoardTableProps> = ({
       align: "center" as const,
     },
     {
-      title: "Candidate Apply",
+      title: "View Candidates",
       dataIndex: "candidateApply",
       key: "candidateApply",
       align: "center" as const,
@@ -145,16 +145,22 @@ const JobBoardTable: React.FC<JobBoardTableProps> = ({
       align: "center" as const,
     },
     {
-      title: "CV",
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      align: "center" as const,
+    },
+    {
+      title: "Send CV",
       key: "cv",
       align: "center" as const,
       render: (_: any, record: any) => (
-        <button
+        <ReuseButton
           onClick={() => window.open(record.cvUrl, "_blank")}
           className="px-4 py-2 bg-secondary-color text-white text-sm font-medium rounded hover:bg-secondary-color transition"
         >
-          View
-        </button>
+          Send CV
+        </ReuseButton>
       ),
     },
     {

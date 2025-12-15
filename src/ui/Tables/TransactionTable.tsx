@@ -39,6 +39,11 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
       key: "name",
     },
     {
+      title: "Company Name",
+      dataIndex: "companyName",
+      key: "companyName",
+    },
+    {
       title: "Email",
       dataIndex: "email",
       key: "email",

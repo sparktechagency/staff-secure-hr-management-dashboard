@@ -131,11 +131,21 @@ const AdminAllCandidates = () => {
 
   return (
     <div className=" bg-primary-color rounded-xl p-4 min-h-[90vh]">
-      <div className="flex justify-between items-center mx-3 py-2 mb-5">
+      <div className="flex flex-col gap-10 mx-3 py-2 mb-5">
         <p className="text-xl sm:text-2xl lg:text-3xl text-base-color font-bold ">
           Candidates
         </p>
-        <div className="h-fit">
+        <div className="h-fit flex gap-2 items-center">
+          <ReuseSearchInput
+            placeholder="Search ..."
+            setSearch={setSearchText}
+            setPage={setPage}
+          />
+          <ReuseSearchInput
+            placeholder="Search ..."
+            setSearch={setSearchText}
+            setPage={setPage}
+          />
           <ReuseSearchInput
             placeholder="Search ..."
             setSearch={setSearchText}
