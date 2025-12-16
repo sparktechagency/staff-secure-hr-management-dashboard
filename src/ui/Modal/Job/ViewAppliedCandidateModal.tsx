@@ -1,5 +1,4 @@
 "use client";
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Modal } from "antd";
 import { IAppliciantData, IJob } from "../../../types";
 import AppliedCandidatesTable from "../../Tables/AppliedCandidatesTable";

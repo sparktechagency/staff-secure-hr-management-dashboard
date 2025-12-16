@@ -1,135 +1,51 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import CVDispatchTable from "../../ui/Tables/CVDispatchTable";
-import ReuseSearchInput from "../../ui/Form/ReuseSearchInput";
+import {
+  useGetAllDispatchedCVsQuery,
+  useGetDispatchOverviewQuery,
+} from "../../redux/features/jobBoard/jobBoardApi";
+import { IApplication } from "../../types";
 
 const AdminAllCvDispathc = () => {
-  const data: any = [
-    {
-      id: 1223,
-      candidateName: "David Wilson",
-      employer: "BuildTech Construction Ltd",
-      jobTitle: "Site Electrician",
-      sentAt: "2025-10-03 10:30",
-      status: "Viewed",
-      hasDocument: true,
-    },
-    {
-      id: 1224,
-      candidateName: "David Wilson",
-      employer: "BuildTech Construction Ltd",
-      jobTitle: "Site Electrician",
-      sentAt: "2025-10-03 10:30",
-      status: "Pending",
-      hasDocument: false,
-    },
-    {
-      id: 1225,
-      candidateName: "David Wilson",
-      employer: "BuildTech Construction Ltd",
-      jobTitle: "Site Electrician",
-      sentAt: "2025-10-03 10:30",
-      status: "Viewed",
-      hasDocument: false,
-    },
-    {
-      id: 1226,
-      candidateName: "David Wilson",
-      employer: "BuildTech Construction Ltd",
-      jobTitle: "Site Electrician",
-      sentAt: "2025-10-03 10:30",
-      status: "Pending",
-      hasDocument: false,
-    },
-    {
-      id: 1227,
-      candidateName: "David Wilson",
-      employer: "BuildTech Construction Ltd",
-      jobTitle: "Site Electrician",
-      sentAt: "2025-10-03 10:30",
-      status: "Viewed",
-      hasDocument: false,
-    },
-    {
-      id: 1228,
-      candidateName: "David Wilson",
-      employer: "BuildTech Construction Ltd",
-      jobTitle: "Site Electrician",
-      sentAt: "2025-10-03 10:30",
-      status: "Viewed",
-      hasDocument: false,
-    },
-    {
-      id: 1229,
-      candidateName: "David Wilson",
-      employer: "BuildTech Construction Ltd",
-      jobTitle: "Site Electrician",
-      sentAt: "2025-10-03 10:30",
-      status: "Viewed",
-      hasDocument: true,
-    },
-    {
-      id: 1230,
-      candidateName: "David Wilson",
-      employer: "BuildTech Construction Ltd",
-      jobTitle: "Site Electrician",
-      sentAt: "2025-10-03 10:30",
-      status: "Viewed",
-      hasDocument: false,
-    },
-    {
-      id: 1231,
-      candidateName: "David Wilson",
-      employer: "BuildTech Construction Ltd",
-      jobTitle: "Site Electrician",
-      sentAt: "2025-10-03 10:30",
-      status: "Viewed",
-      hasDocument: false,
-    },
-    {
-      id: 1232,
-      candidateName: "David Wilson",
-      employer: "BuildTech Construction Ltd",
-      jobTitle: "Site Electrician",
-      sentAt: "2025-10-03 10:30",
-      status: "Viewed",
-      hasDocument: false,
-    },
-  ];
   const [page, setPage] = useState(1);
-  const [searchText, setSearchText] = useState("");
-  console.log(searchText);
   const limit = 12;
+
+  const { data: overviewData, isFetching: isOverviewFetching } =
+    useGetDispatchOverviewQuery({});
+
   const countData = [
     {
       id: 1,
       name: "Total CVs Dispatched",
-      count: 0,
+      count: overviewData?.data?.totalForwarded || 0,
     },
     {
       id: 2,
       name: "Sent This Month",
-      count: 0,
+      count: overviewData?.data?.totalThisMonth || 0,
     },
     {
       id: 3,
       name: "Sent Today",
-      count: 0,
+      count: overviewData?.data?.totalToday || 0,
     },
   ];
+
+  const { data, isFetching } = useGetAllDispatchedCVsQuery(
+    { page, limit },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
+
+  const totalData = data?.data?.meta?.total || 0;
+  const allJobDispatch: IApplication[] = data?.data?.result;
   return (
     <div className=" bg-primary-color rounded-xl p-4 min-h-[90vh]">
       <div className="flex justify-between items-center mx-3 py-2 mb-5">
         <p className="text-xl sm:text-2xl lg:text-3xl text-base-color font-bold ">
           CV Dispatch
         </p>
-        <div className="h-fit">
-          <ReuseSearchInput
-            placeholder="Search ..."
-            setSearch={setSearchText}
-            setPage={setPage}
-          />
-        </div>
       </div>
       <div className="flex flex-row flex-wrap gap-1 lg:gap-5 mb-5  !w-fit">
         {countData.map((item) => (
@@ -144,7 +60,7 @@ const AdminAllCvDispathc = () => {
                 </p>
               </div>
               <p className="text-lg sm:text-xl lg:text-2xl  font-bold capitalize tracking-wider text-secondary-color">
-                {item.count}
+                {isOverviewFetching ? "..." : item.count}
               </p>
               {/* <div className="bg-[#FAF4FF] p-3 rounded-full">{item.icon}</div> */}
             </div>
@@ -152,11 +68,11 @@ const AdminAllCvDispathc = () => {
         ))}
       </div>
       <CVDispatchTable
-        data={data}
-        loading={false}
+        data={allJobDispatch}
+        loading={isFetching}
         setPage={setPage}
         page={page}
-        total={0}
+        total={totalData}
         limit={limit}
       />
     </div>

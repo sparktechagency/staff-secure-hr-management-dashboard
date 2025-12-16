@@ -3,6 +3,13 @@ import { tagTypes } from "../../tagTypes";
 
 const jobBoardApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    getDispatchOverview: builder.query({
+      query: () => ({
+        url: `/overview/cv-dispatch`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.jobBoard],
+    }),
     getJobBoard: builder.query({
       query: ({ page, limit }) => ({
         url: `/job/all/withApplicantsCount`,
@@ -64,6 +71,7 @@ const jobBoardApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useGetDispatchOverviewQuery,
   useGetJobBoardQuery,
   useGetAllApplicantsQuery,
   useGetAllDispatchedCVsQuery,

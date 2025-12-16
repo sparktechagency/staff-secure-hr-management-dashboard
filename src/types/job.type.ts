@@ -54,4 +54,33 @@ interface IAppliciantData {
   appliedAt: string;
 }
 
-export type { IJob, IAppliciantData };
+interface IApplication {
+  _id: string;
+
+  candidateId: {
+    _id: string;
+    name: string;
+    email: string;
+    designation: string;
+    cv: string;
+  };
+
+  jobId: {
+    _id: string;
+    title: string;
+  };
+
+  jobProviderOwnerId: {
+    _id: string;
+    name: string;
+    email: string;
+    companyName: string;
+  };
+
+  status: "applied" | "forwarded" | "selected" | "rejected";
+  adminNotes: string;
+  appliedAt: string;
+  forwardedAt: string | null;
+}
+
+export type { IJob, IAppliciantData, IApplication };

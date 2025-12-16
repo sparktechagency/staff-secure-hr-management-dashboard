@@ -2,10 +2,12 @@
 import React from "react";
 import ReuseTable from "../../utils/ReuseTable";
 import { Tag } from "antd";
+import { IApplication } from "../../types";
+import { formatDate } from "../../utils/dateFormet";
 
 // Define the type for the props
 interface CVDispatchTableProps {
-  data: any[]; // Replace `unknown` with the actual type of your data array
+  data: IApplication[]; // Replace `unknown` with the actual type of your data array
   loading: boolean;
   setPage: (page: number) => void; // Function to handle pagination
   page: number;
@@ -24,39 +26,44 @@ const CVDispatchTable: React.FC<CVDispatchTableProps> = ({
   const columns = [
     {
       title: "ID",
-      dataIndex: "id",
-      key: "id",
+      dataIndex: "_id",
+      key: "_id",
       width: 80,
-      render: (_: any, __: any, index: number) =>
+      render: (_: IApplication, __: IApplication, index: number) =>
         page * limit - limit + index + 1,
     },
     {
-      title: "Candidate Name",
-      dataIndex: "candidateName",
-      key: "candidateName",
+      title: "Candidate",
+      dataIndex: "candidateId",
+      key: "candidateId",
+      render: (candidateId: any) => (
+        <div>
+          <p>{candidateId.name}</p>
+          <p className="text-sm text-gray-500">{candidateId.email}</p>
+        </div>
+      ),
     },
     {
       title: "Employer",
-      dataIndex: "employer",
-      key: "employer",
+      dataIndex: "jobProviderOwnerId",
+      key: "jobProviderOwnerId",
+      render: (jobProviderOwnerId: any) => (
+        <div>
+          <p>{jobProviderOwnerId.companyName}</p>
+          <p className="text-sm text-gray-500">{jobProviderOwnerId.name}</p>
+        </div>
+      ),
     },
     {
       title: "Job Title",
-      dataIndex: "jobTitle",
-      key: "jobTitle",
+      dataIndex: ["jobId", "title"],
+      key: "jobId",
     },
     {
       title: "Sent At",
-      dataIndex: "sentAt",
-      key: "sentAt",
-      render: (date: string) =>
-        new Date(date).toLocaleString("en-GB", {
-          day: "2-digit",
-          month: "2-digit",
-          year: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
+      dataIndex: "forwardedAt",
+      key: "forwardedAt",
+      render: (date: string) => <span>{formatDate(date)}</span>,
     },
     {
       title: "Status",
@@ -64,12 +71,17 @@ const CVDispatchTable: React.FC<CVDispatchTableProps> = ({
       key: "status",
       render: (status: string) => {
         let color = "green";
-        if (status === "Pending") color = "orange";
-        if (status === "Viewed") color = "green";
+        if (status === "forwarded") color = "orange";
+        if (status === "selected") color = "green";
+        if (status === "rejected") color = "red";
 
         return (
           <Tag color={color} className="font-medium">
-            {status}
+            {status === "forwarded"
+              ? "Forwarded"
+              : status === "selected"
+              ? "Selected"
+              : status === "rejected" && "Rejected"}
           </Tag>
         );
       },
