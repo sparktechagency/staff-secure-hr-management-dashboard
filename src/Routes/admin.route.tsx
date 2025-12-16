@@ -46,13 +46,6 @@ export const adminPaths = [
     icon: userLogo,
   },
   {
-    path: "payment-received",
-    element: <AdminAllTransaction />,
-    key: "payment-received",
-    name: "Payment Received",
-    icon: userLogo,
-  },
-  {
     path: "cv-dispatch",
     element: <AdminAllCvDispathc />,
     key: "cv-dispatch",
@@ -65,6 +58,13 @@ export const adminPaths = [
     element: <AdminAllPlacement />,
     key: "placement",
     name: "Placement",
+    icon: userLogo,
+  },
+  {
+    path: "payment-received",
+    element: <AdminAllTransaction />,
+    key: "payment-received",
+    name: "Payment Received",
     icon: userLogo,
   },
   {

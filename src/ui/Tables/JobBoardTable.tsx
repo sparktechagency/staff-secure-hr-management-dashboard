@@ -1,15 +1,17 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import ReuseTable from "../../utils/ReuseTable";
 import { Space, Tooltip } from "antd";
 import { GoEye } from "react-icons/go";
 import ReuseButton from "../Button/ReuseButton";
+import { IJob } from "../../types";
+import { formatDate } from "../../utils/dateFormet";
 
 // Define the type for the props
 interface JobBoardTableProps {
-  data: any[]; // Replace `unknown` with the actual type of your data array
+  data: IJob[]; // Replace `unknown` with the actual type of your data array
   loading: boolean;
-  showDeleteModal: (record: any) => void;
+  showViewModal: (record: IJob) => void;
+  showAllCandidatesModal: (record: IJob) => void;
   setPage: (page: number) => void; // Function to handle pagination
   page: number;
   total: number;
@@ -19,7 +21,8 @@ interface JobBoardTableProps {
 const JobBoardTable: React.FC<JobBoardTableProps> = ({
   data,
   loading,
-  showDeleteModal,
+  showViewModal,
+  showAllCandidatesModal,
   setPage,
   page,
   total,
@@ -27,14 +30,11 @@ const JobBoardTable: React.FC<JobBoardTableProps> = ({
 }) => {
   const columns = [
     {
-      title: "ID",
-      key: "id",
-      width: 80,
-      render: (_: any, __: any, index: number) => (
-        <span className="font-medium text-gray-700">
-          {(page - 1) * limit + index + 1}
-        </span>
-      ),
+      title: "Order ID",
+      dataIndex: "_id",
+      key: "_id",
+      render: (_: unknown, __: unknown, index: number) =>
+        page * limit - limit + index + 1,
       fixed: "left",
     },
     {
@@ -45,8 +45,14 @@ const JobBoardTable: React.FC<JobBoardTableProps> = ({
     },
     {
       title: "Employer",
-      dataIndex: "employer",
-      key: "employer",
+      dataIndex: "employerId",
+      key: "employerId",
+      render: (emp: { name: string; companyName: string }) => (
+        <div>
+          <p>{emp.companyName}</p>
+          <p className="text-gray-500 text-base">{emp.name}</p>
+        </div>
+      ),
     },
 
     {
@@ -73,7 +79,7 @@ const JobBoardTable: React.FC<JobBoardTableProps> = ({
       align: "center" as const,
       render: (salary: { min: number; max: number }) => (
         <span className="">
-          {salary.min} - {salary.max}
+          {salary.min}£ - {salary.max}£
         </span>
       ),
     },
@@ -82,6 +88,7 @@ const JobBoardTable: React.FC<JobBoardTableProps> = ({
       dataIndex: "experience",
       key: "experience",
       align: "center" as const,
+      render: (exp: number) => <span>{exp} Yrs</span>,
     },
     {
       title: "Work Type",
@@ -103,8 +110,8 @@ const JobBoardTable: React.FC<JobBoardTableProps> = ({
     },
     {
       title: "Candidate Apply",
-      dataIndex: "candidateApply",
-      key: "candidateApply",
+      dataIndex: "totalApplicant",
+      key: "totalApplicant",
       align: "center" as const,
     },
     {
@@ -112,6 +119,17 @@ const JobBoardTable: React.FC<JobBoardTableProps> = ({
       dataIndex: "candidateApply",
       key: "candidateApply",
       align: "center" as const,
+      render: (_: IJob, record: IJob) => (
+        <Tooltip title="Send CV">
+          <ReuseButton
+            onClick={() => showAllCandidatesModal(record)}
+            variant="outline"
+            className="!w-fit !py-1 !px-1"
+          >
+            View
+          </ReuseButton>
+        </Tooltip>
+      ),
     },
     {
       title: "Description",
@@ -128,15 +146,17 @@ const JobBoardTable: React.FC<JobBoardTableProps> = ({
     },
     {
       title: "Job Post Date",
-      dataIndex: "createAt",
-      key: "createAt",
+      dataIndex: "createdAt",
+      key: "createdAt",
       align: "center" as const,
+      render: (date: Date) => <span>{formatDate(date)}</span>,
     },
     {
       title: "Last Apply Date",
       dataIndex: "lastApplyDate",
       key: "lastApplyDate",
       align: "center" as const,
+      render: (date: Date) => <span>{formatDate(date)}</span>,
     },
     {
       title: "Job Referral Code",
@@ -154,31 +174,31 @@ const JobBoardTable: React.FC<JobBoardTableProps> = ({
       title: "Send CV",
       key: "cv",
       align: "center" as const,
-      render: (_: any, record: any) => (
-        <ReuseButton
-          onClick={() => window.open(record.cvUrl, "_blank")}
-          className="px-4 py-2 bg-secondary-color text-white text-sm font-medium rounded hover:bg-secondary-color transition"
-        >
-          Send CV
-        </ReuseButton>
+      render: (_: IJob, record: IJob) => (
+        <Tooltip title="Send CV">
+          <ReuseButton
+            onClick={() => {
+              showAllCandidatesModal(record);
+            }}
+            variant="secondary"
+            className="!w-fit !py-1 !px-1"
+          >
+            Send CVs
+          </ReuseButton>
+        </Tooltip>
       ),
     },
     {
       title: "Action",
       key: "action",
       align: "center" as const,
-      render: (_: any, record: any) => (
+      render: (_: IJob, record: IJob) => (
         <Space size="middle">
-          <Tooltip title="Delete">
+          <Tooltip title="View">
             <GoEye
               className="text-secondary-color cursor-pointer"
-              onClick={() => showDeleteModal(record)}
+              onClick={() => showViewModal(record)}
             />
-          </Tooltip>
-          <Tooltip title="Send CV">
-            <ReuseButton variant="secondary" className="!w-fit">
-              Send CVs
-            </ReuseButton>
           </Tooltip>
         </Space>
       ),

@@ -1,30 +1,44 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import ReuseSearchInput from "../../ui/Form/ReuseSearchInput";
-import DeleteModal from "../../ui/Modal/DeleteModal";
 import JobBoardTable from "../../ui/Tables/JobBoardTable";
+import { useGetJobBoardQuery } from "../../redux/features/jobBoard/jobBoardApi";
+import { IJob } from "../../types";
+import ViewJobModal from "../../ui/Modal/Job/ViewJobModal";
+import ViewAppliedCandidateModal from "../../ui/Modal/Job/ViewAppliedCandidateModal";
 
 const AdminAllJobBoard = () => {
-  const data: any = [];
   const [page, setPage] = useState(1);
-  const [searchText, setSearchText] = useState("");
-  console.log(searchText);
+  // const [searchText, setSearchText] = useState("");
   const limit = 12;
 
-  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const { data: jobBoardData, isFetching } = useGetJobBoardQuery(
+    { limit, page },
+    { refetchOnMountOrArgChange: true }
+  );
+
+  console.log(jobBoardData);
+
+  const totalData = jobBoardData?.data?.meta?.total || 0;
+  const allJobs: IJob[] = jobBoardData?.data?.result;
+
+  const [isViewModalVisible, setIsViewModalVisible] = useState(false);
+  const [isAllCandidatesModalVisible, setIsAllCandidatesModalVisible] =
+    useState(false);
   const [currentRecord, setCurrentRecord] = useState<any>(null);
 
-  const showDeleteModal = (data: any) => {
-    setIsDeleteModalVisible(true);
+  const showViewModal = (data: any) => {
+    setIsViewModalVisible(true);
     setCurrentRecord(data);
   };
-  const handleCancel = () => {
-    setIsDeleteModalVisible(false);
-    setCurrentRecord(null);
+
+  const showAllCandidatesModal = (data: any) => {
+    setIsAllCandidatesModalVisible(true);
+    setCurrentRecord(data);
   };
 
-  const handleDelete = () => {
-    setIsDeleteModalVisible(false);
+  const handleCancel = () => {
+    setIsViewModalVisible(false);
+    setIsAllCandidatesModalVisible(false);
     setCurrentRecord(null);
   };
 
@@ -34,29 +48,34 @@ const AdminAllJobBoard = () => {
         <p className="text-xl sm:text-2xl lg:text-3xl text-base-color font-bold ">
           Job Board
         </p>
-        <div className="h-fit">
+        {/* <div className="h-fit">
           <ReuseSearchInput
             placeholder="Search ..."
             setSearch={setSearchText}
             setPage={setPage}
           />
-        </div>
+        </div> */}
       </div>
 
       <JobBoardTable
-        data={data}
-        loading={false}
+        data={allJobs}
+        loading={isFetching}
         setPage={setPage}
-        showDeleteModal={showDeleteModal}
+        showViewModal={showViewModal}
+        showAllCandidatesModal={showAllCandidatesModal}
         page={page}
-        total={0}
+        total={totalData}
         limit={limit}
       />
-      <DeleteModal
-        isDeleteModalVisible={isDeleteModalVisible}
+      <ViewAppliedCandidateModal
+        isModalVisible={isAllCandidatesModalVisible}
         handleCancel={handleCancel}
         currentRecord={currentRecord}
-        handleDelete={handleDelete}
+      />
+      <ViewJobModal
+        currentRecord={currentRecord}
+        isModalVisible={isViewModalVisible}
+        handleCancel={handleCancel}
       />
     </div>
   );
