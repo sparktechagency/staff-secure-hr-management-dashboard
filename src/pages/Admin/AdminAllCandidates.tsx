@@ -2,131 +2,102 @@
 import { useState } from "react";
 import ReuseSearchInput from "../../ui/Form/ReuseSearchInput";
 import CandidatesTable from "../../ui/Tables/CandidatesTable";
-import DeleteModal from "../../ui/Modal/DeleteModal";
+import {
+  useBlockAndUnblockUserMutation,
+  useGetAllCandidatesQuery,
+} from "../../redux/features/users/usersApi";
+import { ICandidate } from "../../types";
+import ViewCVModal from "../../ui/Modal/Job/ViewCVmodal";
+import UserModal from "../../ui/Modal/User/UserModal";
+import tryCatchWrapper from "../../utils/tryCatchWrapper";
+import BlockModal from "../../ui/Modal/BlockModal";
+import UnblockModal from "../../ui/Modal/UnblockModal";
+import { Typography } from "antd";
 
 const AdminAllCandidates = () => {
-  const data: any = [
-    {
-      id: 223,
-      name: "Lucas Jhonson",
-      role: "Electrical",
-      location: "Manchester, UK",
-      experience: "3 Years",
-      availability: "Immediate",
-      skills: ["Skill 1", "Skill 2"],
-      cvUrl: "https://example.com/cv/lucas.pdf",
-    },
-    {
-      id: 224,
-      name: "Lucas Jhonson",
-      role: "Electrical",
-      location: "Manchester, UK",
-      experience: "3 Years",
-      availability: "Immediate",
-      skills: ["Skill 1", "Skill 2"],
-      cvUrl: "https://example.com/cv/lucas2.pdf",
-    },
-    {
-      id: 225,
-      name: "Lucas Jhonson",
-      role: "Electrical",
-      location: "Manchester, UK",
-      experience: "3 Years",
-      availability: "Immediate",
-      skills: ["Skill 1", "Skill 2"],
-      cvUrl: "https://example.com/cv/lucas3.pdf",
-    },
-    {
-      id: 226,
-      name: "Lucas Jhonson",
-      role: "Electrical",
-      location: "Manchester, UK",
-      experience: "3 Years",
-      availability: "Immediate",
-      skills: ["Skill 1", "Skill 2"],
-      cvUrl: "https://example.com/cv/lucas4.pdf",
-    },
-    {
-      id: 227,
-      name: "Lucas Jhonson",
-      role: "Electrical",
-      location: "Manchester, UK",
-      experience: "3 Years",
-      availability: "Immediate",
-      skills: ["Skill 1", "Skill 2"],
-      cvUrl: "https://example.com/cv/lucas5.pdf",
-    },
-    {
-      id: 228,
-      name: "Lucas Jhonson",
-      role: "Electrical",
-      location: "Manchester, UK",
-      experience: "3 Years",
-      availability: "Immediate",
-      skills: ["Skill 1", "Skill 2"],
-      cvUrl: "https://example.com/cv/lucas6.pdf",
-    },
-    {
-      id: 229,
-      name: "Lucas Jhonson",
-      role: "Electrical",
-      location: "Manchester, UK",
-      experience: "3 Years",
-      availability: "Immediate",
-      skills: ["Skill 1", "Skill 2"],
-      cvUrl: "https://example.com/cv/lucas7.pdf",
-    },
-    {
-      id: 230,
-      name: "Lucas Jhonson",
-      role: "Electrical",
-      location: "Manchester, UK",
-      experience: "3 Years",
-      availability: "Immediate",
-      skills: ["Skill 1", "Skill 2"],
-      cvUrl: "https://example.com/cv/lucas8.pdf",
-    },
-    {
-      id: 231,
-      name: "Lucas Jhonson",
-      role: "Electrical",
-      location: "Manchester, UK",
-      experience: "3 Years",
-      availability: "Immediate",
-      skills: ["Skill 1", "Skill 2"],
-      cvUrl: "https://example.com/cv/lucas9.pdf",
-    },
-    {
-      id: 232,
-      name: "Lucas Jhonson",
-      role: "Electrical",
-      location: "Manchester, UK",
-      experience: "3 Years",
-      availability: "Immediate",
-      skills: ["Skill 1", "Skill 2"],
-      cvUrl: "https://example.com/cv/lucas10.pdf",
-    },
-  ];
+  const [isViewCVModalVisible, setIsViewCVModalVisible] = useState(false);
+  const [isViewModalVisible, setIsViewModalVisible] = useState(false);
+
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState("");
-  console.log(searchText);
+  const [searchDesignationText, setSearchDesignationText] = useState("");
+  const [searchLocationText, setSearchLocationText] = useState("");
+
+  console.log({ searchDesignationText, searchLocationText });
+
   const limit = 12;
 
-  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
+  const [blockAndUnblock] = useBlockAndUnblockUserMutation();
+
+  const { data, isFetching } = useGetAllCandidatesQuery(
+    { page, limit, searchTerm: searchText },
+    { refetchOnMountOrArgChange: true }
+  );
+
+  const totalData = data?.data?.meta?.total || 0;
+  const allCandidates: ICandidate[] = data?.data?.result;
+
+  const [isBlockModalVisible, setIsBlockModalVisible] = useState(false);
+  const [isUnblockModalVisible, setIsUnblockModalVisible] = useState(false);
   const [currentRecord, setCurrentRecord] = useState<any>(null);
 
-  const showDeleteModal = (data: any) => {
-    setIsDeleteModalVisible(true);
+  const showViewModal = (data: any) => {
+    setIsViewModalVisible(true);
     setCurrentRecord(data);
   };
+
+  const showViewCVModal = (data: ICandidate) => {
+    setIsViewCVModalVisible(true);
+    setCurrentRecord(data);
+  };
+
+  const showBlockModal = (data: any) => {
+    setIsBlockModalVisible(true);
+    setCurrentRecord(data);
+  };
+
+  const showUnblockModal = (data: any) => {
+    setIsUnblockModalVisible(true);
+    setCurrentRecord(data);
+  };
+
   const handleCancel = () => {
-    setIsDeleteModalVisible(false);
+    setIsViewModalVisible(false);
+    setIsViewCVModalVisible(false);
+    setIsBlockModalVisible(false);
+    setIsUnblockModalVisible(false);
     setCurrentRecord(null);
   };
 
-  const handleDelete = () => {
-    setIsDeleteModalVisible(false);
-    setCurrentRecord(null);
+  const handleBlock = async (record: ICandidate) => {
+    const res = await tryCatchWrapper(
+      blockAndUnblock,
+      {
+        params: record?._id,
+        body: {
+          status: "blocked",
+        },
+      },
+      "Blocking..."
+    );
+    if (res?.statusCode === 200) {
+      handleCancel();
+    }
+  };
+  const handleUnblock = async (record: ICandidate) => {
+    const res = await tryCatchWrapper(
+      blockAndUnblock,
+      {
+        params: record?._id,
+        body: {
+          status: "active",
+        },
+      },
+      "Unblocking..."
+    );
+    if (res?.statusCode === 200) {
+      handleCancel();
+    }
   };
 
   return (
@@ -136,38 +107,84 @@ const AdminAllCandidates = () => {
           Candidates
         </p>
         <div className="h-fit flex gap-2 items-center">
-          <ReuseSearchInput
-            placeholder="Search ..."
-            setSearch={setSearchText}
-            setPage={setPage}
-          />
-          <ReuseSearchInput
-            placeholder="Search ..."
-            setSearch={setSearchText}
-            setPage={setPage}
-          />
-          <ReuseSearchInput
-            placeholder="Search ..."
-            setSearch={setSearchText}
-            setPage={setPage}
-          />
+          <div>
+            <Typography.Title
+              level={5}
+              className="text-base sm:text-lg lg:text-xl font-bold text-base-color"
+            >
+              Name
+            </Typography.Title>
+            <ReuseSearchInput
+              placeholder="Search Name..."
+              setSearch={setSearchText}
+              setPage={setPage}
+            />
+          </div>
+          <div>
+            <Typography.Title
+              level={5}
+              className="text-base sm:text-lg lg:text-xl font-bold text-base-color"
+            >
+              Designation
+            </Typography.Title>
+            <ReuseSearchInput
+              placeholder="Search Designation..."
+              setSearch={setSearchDesignationText}
+              setPage={setPage}
+            />
+          </div>
+          <div>
+            <Typography.Title
+              level={5}
+              className="text-base sm:text-lg lg:text-xl font-bold text-base-color"
+            >
+              Location
+            </Typography.Title>
+            <ReuseSearchInput
+              placeholder="Search Location..."
+              setSearch={setSearchLocationText}
+              setPage={setPage}
+            />
+          </div>
         </div>
       </div>
 
       <CandidatesTable
-        data={data}
-        loading={false}
+        data={allCandidates}
+        loading={isFetching}
         setPage={setPage}
-        showDeleteModal={showDeleteModal}
+        showViewModal={showViewModal}
+        showBlockModal={showBlockModal}
+        showUnblockModal={showUnblockModal}
+        showViewCVModal={showViewCVModal}
         page={page}
-        total={0}
+        total={totalData}
         limit={limit}
       />
-      <DeleteModal
-        isDeleteModalVisible={isDeleteModalVisible}
+      <UserModal
+        isViewModalVisible={isViewModalVisible}
         handleCancel={handleCancel}
         currentRecord={currentRecord}
-        handleDelete={handleDelete}
+      />
+      <BlockModal
+        isBlockModalVisible={isBlockModalVisible}
+        handleCancel={handleCancel}
+        currentRecord={currentRecord}
+        handleBlock={handleBlock}
+        description="Are You Sure You want to Block ?"
+      />
+
+      <UnblockModal
+        isUnblockModalVisible={isUnblockModalVisible}
+        handleCancel={handleCancel}
+        currentRecord={currentRecord}
+        handleUnblock={handleUnblock}
+        description="Are You Sure You want to Unblock ?"
+      />
+      <ViewCVModal
+        isViewCVModalVisible={isViewCVModalVisible}
+        handleCancel={handleCancel}
+        currentRecord={currentRecord}
       />
     </div>
   );

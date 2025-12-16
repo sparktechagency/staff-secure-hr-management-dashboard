@@ -92,7 +92,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 
 .ant-menu-sub .ant-menu-title-content {
-  font-size: 14px !important;
+  font-size: 15px !important;
 }
 
 .ant-menu-submenu-selected .ant-menu-submenu-title {
@@ -125,6 +125,7 @@ input[type="number"]::-webkit-outer-spin-button {
 }
 .ant-menu-title-content .active {
   color: #0c3188 !important;
+  font-weight: 600 !important;
 }
 
 /** SIDEBAR:  Selected Backgorund Color Change  */

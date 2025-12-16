@@ -10,6 +10,13 @@ const jobBoardApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.jobBoard],
     }),
+    getPlacementOverview: builder.query({
+      query: () => ({
+        url: `/overview/placement`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.jobBoard],
+    }),
     getJobBoard: builder.query({
       query: ({ page, limit }) => ({
         url: `/job/all/withApplicantsCount`,
@@ -44,6 +51,18 @@ const jobBoardApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.jobBoard],
     }),
+    getAllPlacementCandidates: builder.query({
+      query: ({ page, limit, search }) => ({
+        url: `/application/placement-candidates`,
+        method: "GET",
+        params: {
+          page,
+          limit,
+          searchTerm: search,
+        },
+      }),
+      providesTags: [tagTypes.jobBoard],
+    }),
     sendDirectCv: builder.mutation({
       query: (req) => ({
         url: `/application/send-cv/${req.params.id}`,
@@ -72,8 +91,10 @@ const jobBoardApi = baseApi.injectEndpoints({
 
 export const {
   useGetDispatchOverviewQuery,
+  useGetPlacementOverviewQuery,
   useGetJobBoardQuery,
   useGetAllApplicantsQuery,
   useGetAllDispatchedCVsQuery,
+  useGetAllPlacementCandidatesQuery,
   useSendDirectCvMutation,
 } = jobBoardApi;

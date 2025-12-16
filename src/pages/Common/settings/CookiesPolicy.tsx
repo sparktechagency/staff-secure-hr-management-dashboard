@@ -9,12 +9,12 @@ import {
 import { toast } from "sonner";
 import Loading from "../../../ui/Loading";
 
-const FrameworkAgreement = () => {
+const CookiesPolicy = () => {
   const [addStaticContent] = useUpdateSettingMutation();
   const editor = useRef(null);
   const [content, setContent] = useState("");
 
-  const { data, isFetching } = useGetSettingQuery("frameworkAgreement");
+  const { data, isFetching } = useGetSettingQuery("cookiesPolicy");
 
   useEffect(() => {
     if (data) {
@@ -24,10 +24,10 @@ const FrameworkAgreement = () => {
 
   const handleOnSave = async () => {
     const data = {
-      key: "frameworkAgreement",
+      key: "cookiesPolicy",
       content,
     };
-    const toastId = toast.loading("Updating Framework Agreement...");
+    const toastId = toast.loading("Updating ...");
 
     try {
       const res = await addStaticContent(data).unwrap();
@@ -49,7 +49,7 @@ const FrameworkAgreement = () => {
     <div className=" bg-primary-color rounded-xl p-4 min-h-[90vh]">
       <div className="flex justify-between items-center mx-3 py-2 mb-5">
         <p className="text-xl sm:text-2xl lg:text-3xl text-base-color font-bold ">
-          Framework Agreement
+          Cookies Policy
         </p>
       </div>
       <div className=" flex justify-center items-center">
@@ -70,4 +70,4 @@ const FrameworkAgreement = () => {
     </div>
   );
 };
-export default FrameworkAgreement;
+export default CookiesPolicy;

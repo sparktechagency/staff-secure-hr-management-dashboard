@@ -1,103 +1,132 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Modal } from "antd";
+import { getImageUrl } from "../../../helpers/config/envConfig";
+import { ICandidate } from "../../../types";
+import { formatDate } from "../../../utils/dateFormet";
 import { AllImages } from "../../../../public/images/AllImages";
-import { FaStar } from "react-icons/fa";
-import ReuseButton from "../../Button/ReuseButton";
 interface UserModalProps {
   isViewModalVisible: boolean;
   handleCancel: () => void;
-  currentRecord: any | null;
-  activeTab: string;
-  showViewPortfolioModal: (record: any) => void;
+  currentRecord: ICandidate | null;
 }
 const UserModal: React.FC<UserModalProps> = ({
   isViewModalVisible,
   handleCancel,
   currentRecord,
-  activeTab,
-  showViewPortfolioModal,
 }) => {
+  const serverUrl = getImageUrl();
   return (
     <Modal
       open={isViewModalVisible}
       onCancel={handleCancel}
       footer={null}
       centered
-      className="lg:!w-[450px]"
+      className="lg:!w-[700px]"
     >
-      <div className="p-5">
-        <div className="text-base-color">
-          <h3 className="text-lg sm:text-2xl md:text-3xl lg:text-4xl font-bold  text-center text-secondary-color">
-            User Details
-          </h3>
-          <p className="text-sm sm:text-base lg:text-lg text-center mt-2 text-[#989898]">
-            See all details about {currentRecord?.name}
-          </p>
-          <div className="flex flex-col justify-center items-center gap-2 mt-5">
-            {/* Avatar */}
-            <img
-              src={AllImages.profile}
-              alt={currentRecord?.name}
-              className="w-14 h-14 object-cover rounded"
-            />
-            {activeTab === "professional" && (
-              <p className="text-xs sm:text-sm lg:text-base flex items-center gap-1">
-                <FaStar className="text-yellow-400" /> 5.0 (124 Reviews)
-              </p>
-            )}
-            <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold text-secondary-color mt-1">
-              {currentRecord?.name}
-            </h2>
-            {activeTab === "professional" && (
-              <div className="text-center">
-                <p className="text-sm sm:text-base lg:text-lg mt-1 font-semibold">
-                  Photographer
-                </p>
-                <p className="text-sm sm:text-base lg:text-lg mt-1">
-                  Wedding Photographer
-                </p>
-              </div>
-            )}
-          </div>
-
-          <div className="mt-5">
-            {activeTab === "professional" ? (
-              <div className="text-lg  mt-3">
-                <div className="flex items-center  gap-2 mb-2">
-                  <span className="font-medium">Email:</span>
-                  <span>user@gmail.com</span>
-                </div>
-                <div className="flex items-center  gap-2 mb-2">
-                  <span className="font-medium">Hourly Rate:</span>
-                  <span>$200</span>
-                </div>
-                <div className="flex items-center  gap-2 mb-2">
-                  <span className="font-medium">Location:</span>
-                  <span>New York</span>
-                </div>
-              </div>
-            ) : (
-              <div className="text-lg  mt-3">
-                <div className="flex items-center  gap-2 mb-2">
-                  <span className="font-medium">Email:</span>
-                  <span>{currentRecord?.email}</span>
-                </div>
-                <div className="flex items-center  gap-2 mb-2">
-                  <span className="font-medium">Location:</span>
-                  <span>New York</span>
-                </div>
-              </div>
-            )}
-          </div>
-          <div className="flex justify-center items-center mt-5">
-            <ReuseButton
-              variant="secondary"
-              onClick={() => showViewPortfolioModal(currentRecord)}
-            >
-              View Portfolio
-            </ReuseButton>
+      <div className=" mt-10">
+        {/* Header */}
+        <div className="flex items-center gap-6 mb-6">
+          <img
+            src={serverUrl + currentRecord?.profileImage || AllImages.profile}
+            alt={currentRecord?.name}
+            className="w-24 h-24 rounded-full object-cover border-2 border-secondary-color"
+          />
+          <div>
+            <h1 className="text-2xl font-bold">{currentRecord?.name}</h1>
+            <p className="text-gray-500">
+              {currentRecord?.candidateProfileId?.designation}
+            </p>
+            <p className="text-gray-400 text-sm">
+              Status: {currentRecord?.status}
+            </p>
           </div>
         </div>
+
+        {/* Contact & Basic Info */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+          <div>
+            <h2 className="font-semibold text-gray-700">Email</h2>
+            <p className="text-gray-600">{currentRecord?.email}</p>
+          </div>
+          <div>
+            <h2 className="font-semibold text-gray-700">Phone</h2>
+            <p className="text-gray-600">{currentRecord?.phone}</p>
+          </div>
+          <div>
+            <h2 className="font-semibold text-gray-700">Location</h2>
+            <p className="text-gray-600">
+              {currentRecord?.candidateProfileId?.location}
+            </p>
+          </div>
+          <div>
+            <h2 className="font-semibold text-gray-700">Availability</h2>
+            <p className="text-gray-600">
+              {currentRecord?.candidateProfileId?.availability}
+            </p>
+          </div>
+          <div>
+            <h2 className="font-semibold text-gray-700">Date of Birth</h2>
+            <p className="text-gray-600">
+              {formatDate(currentRecord?.candidateProfileId?.dateOfBirth)}
+            </p>
+          </div>
+          <div>
+            <h2 className="font-semibold text-gray-700">Experience</h2>
+            <p className="text-gray-600">
+              {currentRecord?.candidateProfileId?.yearsOfExperience} years
+            </p>
+          </div>
+        </div>
+
+        {/* Bio */}
+        <div className="mb-6">
+          <h2 className="font-semibold text-gray-700 mb-2">Bio</h2>
+          <p className="text-gray-600">
+            {currentRecord?.candidateProfileId?.bio}
+          </p>
+        </div>
+
+        {/* Skills */}
+        <div className="mb-6">
+          <h2 className="font-semibold text-gray-700 mb-2">Skills</h2>
+          <div className="flex flex-wrap gap-2">
+            {(currentRecord?.candidateProfileId?.skills?.length as number) >
+            0 ? (
+              currentRecord?.candidateProfileId?.skills.map((skill, idx) => (
+                <span
+                  key={idx}
+                  className="px-3 py-1 bg-secondary-color/10 text-secondary-color rounded-full text-sm"
+                >
+                  {skill}
+                </span>
+              ))
+            ) : (
+              <p className="text-gray-500">No skills added</p>
+            )}
+          </div>
+        </div>
+        {/* qualifications */}
+        <div className="mb-6">
+          <h2 className="font-semibold text-gray-700 mb-2">Qualifications</h2>
+          <div className="flex flex-wrap gap-2">
+            {(currentRecord?.candidateProfileId?.qualifications
+              ?.length as number) > 0 ? (
+              currentRecord?.candidateProfileId?.qualifications.map(
+                (skill, idx) => (
+                  <span
+                    key={idx}
+                    className="px-3 py-1 bg-secondary-color/10 text-secondary-color rounded-full text-sm"
+                  >
+                    {skill}
+                  </span>
+                )
+              )
+            ) : (
+              <p className="text-gray-500">No qualifications added</p>
+            )}
+          </div>
+        </div>
+
+        {/* CV Download */}
       </div>
     </Modal>
   );

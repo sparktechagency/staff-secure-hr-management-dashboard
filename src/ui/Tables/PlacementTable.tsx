@@ -23,26 +23,26 @@ const PlacementTable: React.FC<PlacementTableProps> = ({
   const columns = [
     {
       title: "UID",
-      dataIndex: "id",
-      key: "id",
+      dataIndex: "_id",
+      key: "_id",
       width: 80,
       render: (_: any, __: any, index: number) =>
         page * limit - limit + index + 1,
     },
     {
       title: "Candidate Name",
-      dataIndex: "candidateName",
-      key: "candidateName",
+      dataIndex: ["candidateId", "name"],
+      key: "candidateId.name",
     },
     {
       title: "Employer",
-      dataIndex: "employer",
-      key: "employer",
+      dataIndex: ["jobProviderOwnerId", "companyName"],
+      key: "jobProviderOwnerId.companyName",
     },
     {
       title: "Position",
-      dataIndex: "position",
-      key: "position",
+      dataIndex: ["jobId", "title"],
+      key: "jobId.title",
     },
   ];
 

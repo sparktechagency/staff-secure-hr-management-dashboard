@@ -2,100 +2,17 @@
 import { useState } from "react";
 import PlacementTable from "../../ui/Tables/PlacementTable";
 import ReuseSearchInput from "../../ui/Form/ReuseSearchInput";
+import {
+  useGetAllPlacementCandidatesQuery,
+  useGetPlacementOverviewQuery,
+} from "../../redux/features/jobBoard/jobBoardApi";
+import { IApplication } from "../../types";
 
 const AdminAllPlacement = () => {
-  const data: any = [
-    {
-      id: 1223,
-      candidateName: "David Wilson",
-      employer: "BuildTech Construction Ltd",
-      jobTitle: "Site Electrician",
-      sentAt: "2025-10-03 10:30",
-      status: "Viewed",
-      hasDocument: true,
-    },
-    {
-      id: 1224,
-      candidateName: "David Wilson",
-      employer: "BuildTech Construction Ltd",
-      jobTitle: "Site Electrician",
-      sentAt: "2025-10-03 10:30",
-      status: "Pending",
-      hasDocument: false,
-    },
-    {
-      id: 1225,
-      candidateName: "David Wilson",
-      employer: "BuildTech Construction Ltd",
-      jobTitle: "Site Electrician",
-      sentAt: "2025-10-03 10:30",
-      status: "Viewed",
-      hasDocument: false,
-    },
-    {
-      id: 1226,
-      candidateName: "David Wilson",
-      employer: "BuildTech Construction Ltd",
-      jobTitle: "Site Electrician",
-      sentAt: "2025-10-03 10:30",
-      status: "Pending",
-      hasDocument: false,
-    },
-    {
-      id: 1227,
-      candidateName: "David Wilson",
-      employer: "BuildTech Construction Ltd",
-      jobTitle: "Site Electrician",
-      sentAt: "2025-10-03 10:30",
-      status: "Viewed",
-      hasDocument: false,
-    },
-    {
-      id: 1228,
-      candidateName: "David Wilson",
-      employer: "BuildTech Construction Ltd",
-      jobTitle: "Site Electrician",
-      sentAt: "2025-10-03 10:30",
-      status: "Viewed",
-      hasDocument: false,
-    },
-    {
-      id: 1229,
-      candidateName: "David Wilson",
-      employer: "BuildTech Construction Ltd",
-      jobTitle: "Site Electrician",
-      sentAt: "2025-10-03 10:30",
-      status: "Viewed",
-      hasDocument: true,
-    },
-    {
-      id: 1230,
-      candidateName: "David Wilson",
-      employer: "BuildTech Construction Ltd",
-      jobTitle: "Site Electrician",
-      sentAt: "2025-10-03 10:30",
-      status: "Viewed",
-      hasDocument: false,
-    },
-    {
-      id: 1231,
-      candidateName: "David Wilson",
-      employer: "BuildTech Construction Ltd",
-      jobTitle: "Site Electrician",
-      sentAt: "2025-10-03 10:30",
-      status: "Viewed",
-      hasDocument: false,
-    },
-    {
-      id: 1232,
-      candidateName: "David Wilson",
-      employer: "BuildTech Construction Ltd",
-      jobTitle: "Site Electrician",
-      sentAt: "2025-10-03 10:30",
-      status: "Viewed",
-      hasDocument: false,
-    },
-  ];
+  const { data: overviewData, isFetching: isOverviewFetching } =
+    useGetPlacementOverviewQuery({});
+
+  console.log(overviewData);
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState("");
   console.log(searchText);
@@ -104,14 +21,30 @@ const AdminAllPlacement = () => {
     {
       id: 1,
       name: "Total Placement",
-      count: 0,
+      count: overviewData?.data?.totalPlacement || 0,
     },
     {
       id: 2,
       name: "Placement This Month",
-      count: 0,
+      count: overviewData?.data?.totalPlacementThisMonth || 0,
+    },
+    {
+      id: 3,
+      name: "Placement Today",
+      count: overviewData?.data?.totalPlacementToday || 0,
     },
   ];
+
+  const { data, isFetching } = useGetAllPlacementCandidatesQuery(
+    { page, limit, search: searchText },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
+  const totalData = data?.data?.meta?.total || 0;
+  const allJobDispatch: IApplication[] = data?.data?.result || [];
+
+  console.log(allJobDispatch);
   return (
     <div className=" bg-primary-color rounded-xl p-4 min-h-[90vh]">
       <div className="flex justify-between items-center mx-3 py-2 mb-5">
@@ -139,7 +72,7 @@ const AdminAllPlacement = () => {
                 </p>
               </div>
               <p className="text-lg sm:text-xl lg:text-2xl  font-bold capitalize tracking-wider text-secondary-color">
-                {item.count}
+                {isOverviewFetching ? "..." : item.count}
               </p>
               {/* <div className="bg-[#FAF4FF] p-3 rounded-full">{item.icon}</div> */}
             </div>
@@ -147,11 +80,11 @@ const AdminAllPlacement = () => {
         ))}
       </div>{" "}
       <PlacementTable
-        data={data}
-        loading={false}
+        data={allJobDispatch}
+        loading={isFetching}
         setPage={setPage}
         page={page}
-        total={0}
+        total={totalData}
         limit={limit}
       />
     </div>

@@ -9,19 +9,15 @@ import settingsLogo from "/images/dashboard-logo/settings.svg";
 import AdminDashboard from "../pages/Admin/AdminDashboard";
 import AdminAllTransaction from "../pages/Admin/AdminAllTransaction";
 import TermsOfService from "../pages/Common/settings/TermsOfService";
-import GDPR from "../pages/Common/settings/GDPR";
-import HowOrderingWorks from "../pages/Common/settings/HowOrderingWorks";
-import HowItWorks from "../pages/Common/settings/HowItWorks";
-import FrameworkAgreement from "../pages/Common/settings/FrameworkAgreement";
 import ProfileSettingsPage from "../pages/Common/settings/Profile";
 import PrivacyAndPolicy from "../pages/Common/settings/PrivacyAndPolicy";
-import WebsiteFunctionality from "../pages/Common/settings/WebsiteFunctionality";
-import SearchAlgorithm from "../pages/Common/settings/SearchAlgorithm";
 import MessagePage from "../pages/Admin/MessagePage";
 import AdminAllCvDispathc from "../pages/Admin/AdminAllCvDispathc";
 import AdminAllPlacement from "../pages/Admin/AdminAllPlacement";
 import AdminAllCandidates from "../pages/Admin/AdminAllCandidates";
 import AdminAllJobBoard from "../pages/Admin/AdminAllJobBoard";
+import AdminAllEmployer from "../pages/Admin/AdminAllEmployer";
+import CookiesPolicy from "../pages/Common/settings/CookiesPolicy";
 
 export const adminPaths = [
   {
@@ -30,6 +26,13 @@ export const adminPaths = [
     key: "overview",
     name: "Dashboard",
     icon: dashboardLogo,
+  },
+  {
+    path: "all-employers",
+    element: <AdminAllEmployer />,
+    key: "all-employers",
+    name: "Employers",
+    icon: userLogo,
   },
   {
     path: "all-candidates",
@@ -89,51 +92,16 @@ export const adminPaths = [
       {
         key: "terms-of-service",
         path: "documentation/terms-of-service",
-        name: "Terms of Service",
+        name: "Terms & Conditions",
         icon: dashboardLogo,
         element: <TermsOfService />,
       },
       {
-        key: "gdpr",
-        path: "documentation/gdpr",
-        name: "GDPR",
+        key: "cookies-policy",
+        path: "documentation/cookies-policy",
+        name: "Cookies Policy",
         icon: dashboardLogo,
-        element: <GDPR />,
-      },
-      {
-        key: "how-ordering-works",
-        path: "documentation/how-ordering-works",
-        name: "How Ordering Works",
-        icon: dashboardLogo,
-        element: <HowOrderingWorks />,
-      },
-      {
-        key: "how-it-works",
-        path: "documentation/how-it-works",
-        name: "How It Works",
-        icon: dashboardLogo,
-        element: <HowItWorks />,
-      },
-      {
-        key: "framework-agreement",
-        path: "documentation/framework-agreement",
-        name: "Framework Agreement",
-        icon: dashboardLogo,
-        element: <FrameworkAgreement />,
-      },
-      {
-        key: "search-algorithm",
-        path: "documentation/search-algorithm",
-        name: "Search Algorithm",
-        icon: dashboardLogo,
-        element: <SearchAlgorithm />,
-      },
-      {
-        key: "website-functionality-and-compatibility",
-        path: "documentation/website-functionality-and-compatibility",
-        name: " Website Functionality",
-        icon: dashboardLogo,
-        element: <WebsiteFunctionality />,
+        element: <CookiesPolicy />,
       },
     ],
   },

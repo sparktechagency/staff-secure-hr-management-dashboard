@@ -34,7 +34,7 @@ const PrivacyAndPolicy = () => {
       toast.success(res?.message, { id: toastId, duration: 2000 });
       setContent("");
     } catch (error: any) {
-      toast.error(error?.data?.message || "Failed to update Contact Us", {
+      toast.error(error?.data?.message || "Failed to update Privacy Policy", {
         id: toastId,
         duration: 2000,
       });

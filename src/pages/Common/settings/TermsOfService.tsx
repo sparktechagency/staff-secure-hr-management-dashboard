@@ -14,7 +14,7 @@ const TermsOfService = () => {
   const editor = useRef(null);
   const [content, setContent] = useState("");
 
-  const { data, isFetching } = useGetSettingQuery("termsService");
+  const { data, isFetching } = useGetSettingQuery("termsAndConditions");
 
   useEffect(() => {
     if (data) {
@@ -24,7 +24,7 @@ const TermsOfService = () => {
 
   const handleOnSave = async () => {
     const data = {
-      key: "termsService",
+      key: "termsAndConditions",
       content,
     };
     const toastId = toast.loading("Updating ...");
@@ -34,7 +34,7 @@ const TermsOfService = () => {
       toast.success(res?.message, { id: toastId, duration: 2000 });
       setContent("");
     } catch (error: any) {
-      toast.error(error?.data?.message || "Failed to update Contact Us", {
+      toast.error(error?.data?.message || "Failed to update Terms of Service", {
         id: toastId,
         duration: 2000,
       });
