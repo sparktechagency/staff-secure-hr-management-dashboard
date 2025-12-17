@@ -49,7 +49,7 @@ const ImagePreviewer = ({
           <img
             src={fileUrl}
             alt="Image"
-            className={`cursor-pointer h-32 object-cover object-top rounded-md border border-[#F9DD40] ${
+            className={`cursor-pointer h-32 object-cover object-top rounded-md border border-[#0F75BD] ${
               msg?.sender?._id === userData?.userId ||
               msg?.sender?.toString() === userData?.userId
                 ? "order-last"
@@ -60,7 +60,7 @@ const ImagePreviewer = ({
       </div>
     </PhotoProvider>
   ) : (
-    <div className="flex items-center gap-2 px-3 py-2 rounded text-[#F9DD40] bg-secondary-color shadow max-w-xs text-sm">
+    <div className="flex items-center gap-2 px-3 py-2 rounded text-[#ffffff] bg-secondary-color shadow max-w-xs text-sm">
       <Tooltip title={fileUrl?.split("/").pop()}>
         <span className="truncate max-w-[150px]">{getFileName(filePath)}</span>
       </Tooltip>
@@ -68,7 +68,7 @@ const ImagePreviewer = ({
         onClick={() => handleDownload(fileUrl, getFileName(filePath))}
         className="focus:outline-none"
       >
-        <FaDownload className="text-[#F9DD4099] hover:text-[#F9DD40] cursor-pointer text-base" />
+        <FaDownload className="text-[#ffffff99] hover:text-[#ffffff] cursor-pointer text-base" />
       </button>
     </div>
   );

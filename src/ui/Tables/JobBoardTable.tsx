@@ -12,6 +12,7 @@ interface JobBoardTableProps {
   loading: boolean;
   showViewModal: (record: IJob) => void;
   showAllCandidatesModal: (record: IJob) => void;
+  showAISuggestCandidatesModal: (record: IJob) => void;
   setPage: (page: number) => void; // Function to handle pagination
   page: number;
   total: number;
@@ -23,6 +24,7 @@ const JobBoardTable: React.FC<JobBoardTableProps> = ({
   loading,
   showViewModal,
   showAllCandidatesModal,
+  showAISuggestCandidatesModal,
   setPage,
   page,
   total,
@@ -178,7 +180,7 @@ const JobBoardTable: React.FC<JobBoardTableProps> = ({
         <Tooltip title="Send CV">
           <ReuseButton
             onClick={() => {
-              showAllCandidatesModal(record);
+              showAISuggestCandidatesModal(record);
             }}
             variant="secondary"
             className="!w-fit !py-1 !px-1"

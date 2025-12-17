@@ -11,7 +11,6 @@ import {
 } from "../../redux/features/conversation/conversationSlice";
 import { useGetConversationMessageListQuery } from "../../redux/features/conversation/conversationApi";
 import { getImageUrl } from "../../helpers/config/envConfig";
-import { FadeLoader } from "react-spinners";
 import ConversationMessageCard from "./ConversationMessageCard";
 import ConversationSendMessage from "./ConversationSendMessage";
 import { IMessage } from "../../types/conversation.type";
@@ -26,7 +25,7 @@ const ConversationMessage = ({ userData, onlineUsers }: any) => {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [page, setPage] = useState(1);
-  const limit = 50;
+  const limit = 20;
 
   const {
     data: allMessages,
@@ -194,22 +193,17 @@ const ConversationMessage = ({ userData, onlineUsers }: any) => {
                 className="!border-0 !pb-5 overflow-y-auto border-none h-full overflow-x-hidden "
                 ref={messagesContainerRef}
               >
-                {isAllMessageFetching ? (
-                  <div className="flex justify-center items-center h-[60vh]">
-                    <FadeLoader color="#0c3188" />
-                  </div>
-                ) : (
-                  <div className="mb-7">
-                    {convertnewMessageFirst?.map((msg, i) => (
-                      <ConversationMessageCard
-                        key={msg._id ?? i}
-                        msg={msg}
-                        userData={userData}
-                        imageUrl={imageUrl}
-                      />
-                    ))}
-                  </div>
-                )}
+                <div className="mb-7">
+                  {convertnewMessageFirst?.map((msg, i) => (
+                    <ConversationMessageCard
+                      key={msg._id ?? i}
+                      msg={msg}
+                      userData={userData}
+                      imageUrl={imageUrl}
+                    />
+                  ))}
+                </div>
+
                 <div ref={messagesEndRef} />
               </Card>
             </div>

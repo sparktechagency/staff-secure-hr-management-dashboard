@@ -5,6 +5,7 @@ import { useGetJobBoardQuery } from "../../redux/features/jobBoard/jobBoardApi";
 import { IJob } from "../../types";
 import ViewJobModal from "../../ui/Modal/Job/ViewJobModal";
 import ViewAppliedCandidateModal from "../../ui/Modal/Job/ViewAppliedCandidateModal";
+import ViewAISuggetCandidateModal from "../../ui/Modal/Job/ViewAISuggetCandidateModal";
 
 const AdminAllJobBoard = () => {
   const [page, setPage] = useState(1);
@@ -24,6 +25,10 @@ const AdminAllJobBoard = () => {
   const [isViewModalVisible, setIsViewModalVisible] = useState(false);
   const [isAllCandidatesModalVisible, setIsAllCandidatesModalVisible] =
     useState(false);
+  const [
+    isAISuggestCandidatesModalVisible,
+    setIsAISuggestCandidatesModalVisible,
+  ] = useState(false);
   const [currentRecord, setCurrentRecord] = useState<any>(null);
 
   const showViewModal = (data: any) => {
@@ -36,9 +41,15 @@ const AdminAllJobBoard = () => {
     setCurrentRecord(data);
   };
 
+  const showAISuggestCandidatesModal = (data: any) => {
+    setIsAISuggestCandidatesModalVisible(true);
+    setCurrentRecord(data);
+  };
+
   const handleCancel = () => {
     setIsViewModalVisible(false);
     setIsAllCandidatesModalVisible(false);
+    setIsAISuggestCandidatesModalVisible(false);
     setCurrentRecord(null);
   };
 
@@ -63,12 +74,18 @@ const AdminAllJobBoard = () => {
         setPage={setPage}
         showViewModal={showViewModal}
         showAllCandidatesModal={showAllCandidatesModal}
+        showAISuggestCandidatesModal={showAISuggestCandidatesModal}
         page={page}
         total={totalData}
         limit={limit}
       />
       <ViewAppliedCandidateModal
         isModalVisible={isAllCandidatesModalVisible}
+        handleCancel={handleCancel}
+        currentRecord={currentRecord}
+      />
+      <ViewAISuggetCandidateModal
+        isViewModalVisible={isAISuggestCandidatesModalVisible}
         handleCancel={handleCancel}
         currentRecord={currentRecord}
       />

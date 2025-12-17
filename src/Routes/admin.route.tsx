@@ -11,13 +11,13 @@ import AdminAllTransaction from "../pages/Admin/AdminAllTransaction";
 import TermsOfService from "../pages/Common/settings/TermsOfService";
 import ProfileSettingsPage from "../pages/Common/settings/Profile";
 import PrivacyAndPolicy from "../pages/Common/settings/PrivacyAndPolicy";
-import MessagePage from "../pages/Admin/MessagePage";
 import AdminAllCvDispathc from "../pages/Admin/AdminAllCvDispathc";
 import AdminAllPlacement from "../pages/Admin/AdminAllPlacement";
 import AdminAllCandidates from "../pages/Admin/AdminAllCandidates";
 import AdminAllJobBoard from "../pages/Admin/AdminAllJobBoard";
 import AdminAllEmployer from "../pages/Admin/AdminAllEmployer";
 import CookiesPolicy from "../pages/Common/settings/CookiesPolicy";
+import ConversationPage from "../pages/Common/ConversationPage";
 
 export const adminPaths = [
   {
@@ -72,7 +72,7 @@ export const adminPaths = [
   },
   {
     path: "live-chat",
-    element: <MessagePage />,
+    element: <ConversationPage />,
     key: "live-chat",
     name: "Live Chat",
     icon: messageLogo,
