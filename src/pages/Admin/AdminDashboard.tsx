@@ -3,8 +3,17 @@ import OverviewCard from "../../Components/Dashboard/Overview/OverviewCards";
 import QuickActionRequired from "../../Components/Dashboard/Overview/QuickActionRequired";
 import RecentNotification from "../../Components/Dashboard/Overview/RecentNotification";
 import UserOverview from "../../Components/Dashboard/Overview/UserOverview";
+import { useGetNotificationAndJobQuery } from "../../redux/features/overview/overviewApi";
+import { IJobPlacement, INotification } from "../../types";
 
 const AdminDashboard = () => {
+  const { data, isFetching } = useGetNotificationAndJobQuery(undefined, {
+    refetchOnMountOrArgChange: true,
+  });
+
+  const jobData: IJobPlacement[] = data?.data?.jobs || 0;
+  const notificationData: INotification[] = data?.data?.notifications || 0;
+
   return (
     <div>
       <>
@@ -18,8 +27,11 @@ const AdminDashboard = () => {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-8">
-          <RecentNotification />
-          <QuickActionRequired />
+          <RecentNotification
+            notificationData={notificationData}
+            isFetching={isFetching}
+          />
+          <QuickActionRequired jobData={jobData} isFetching={isFetching} />
         </div>
       </>
     </div>

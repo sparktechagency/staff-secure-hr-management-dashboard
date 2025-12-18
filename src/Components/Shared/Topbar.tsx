@@ -9,34 +9,9 @@ import { useState } from "react";
 import useUserData from "../../hooks/useUserData";
 import { useGetProfileQuery } from "../../redux/features/profile/profileApi";
 import SpinLoader from "../../ui/SpinLoader";
-
-const notifications = [
-  {
-    id: 1,
-    message: "A company added 6 Service Users.",
-    time: "Fri, 12:30pm",
-  },
-  {
-    id: 2,
-    message: "A company added 6 Service Users.",
-    time: "Fri, 12:30pm",
-  },
-  {
-    id: 3,
-    message: "A company added 6 Service Users.",
-    time: "Fri, 12:30pm",
-  },
-  {
-    id: 4,
-    message: "A company added 6 Service Users.",
-    time: "Fri, 12:30pm",
-  },
-  {
-    id: 5,
-    message: "A company added 6 Service Users.",
-    time: "Fri, 12:30pm",
-  },
-];
+import { useGetAllNotificationsQuery } from "../../redux/features/overview/overviewApi";
+import { INotification } from "../../types";
+import { formatDate } from "../../utils/dateFormet";
 
 const Topbar = ({ collapsed, setCollapsed }: any) => {
   const serverUrl = getImageUrl();
@@ -50,38 +25,46 @@ const Topbar = ({ collapsed, setCollapsed }: any) => {
 
   const profileImage = profileData?.profileImage;
 
-  // const { data: notification, isFetching: notificationFetching } =
-  //   useGetNotificationQuery(
-  //     {
-  //       page: 1,
-  //       limit: 5,
-  //     },
-  //     {
-  //       skip: !open,
-  //       refetchOnMountOrArgChange: open,
-  //     }
-  //   );
-  // const notificationData = notification?.data?.notifications;
+  const { data: notification, isFetching: notificationFetching } =
+    useGetAllNotificationsQuery(
+      {
+        page: 1,
+        limit: 5,
+      },
+      {
+        skip: !open,
+        refetchOnMountOrArgChange: open,
+      }
+    );
+  const notificationData: INotification[] = notification?.data?.result;
 
   const notificationMenu = (
     <div
       className="flex flex-col gap-4 w-full text-center bg-white p-4 rounded-lg"
       style={{ boxShadow: "0px 0px 5px  rgba(0, 0, 0, 0.25)" }}
     >
-      {notifications.map((notification) => (
-        <div className="test-start" key={notification.id}>
-          <div className="flex gap-2">
-            <BellFilled className="!text-secondary-color " />
-            <div className="flex flex-col items-start">
-              <p>{notification.message}</p>
-              <p className="text-gray-400">{notification.time}</p>
+      {notificationFetching ? (
+        <div className="flex justify-center items-center w-80">
+          <SpinLoader />
+        </div>
+      ) : (
+        notificationData?.map((notification) => (
+          <div className="test-start" key={notification?._id}>
+            <div className="flex gap-2">
+              <BellFilled className="!text-secondary-color " />
+              <div className="flex flex-col items-start">
+                <p>{notification?.message}</p>
+                <p className="text-gray-400">
+                  {formatDate(notification?.createdAt)}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      ))}
+        ))
+      )}
       <Link
         to={`/${user?.role}/notifications`}
-        className="w-2/3 mx-auto bg-[#022940] !text-primary-color rounded h-8 py-1"
+        className="w-2/3 mx-auto bg-[#022940] !text-secondary-color rounded !font-semibold !text-base py-1"
       >
         See More
       </Link>

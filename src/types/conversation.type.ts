@@ -20,6 +20,7 @@ export interface IConversation {
   chat: IConversationInfo;
   lastMessage: string;
   message: string;
+  images: string[];
   unreadMessageCount: number;
   lastMessageSender: string;
   lastMessageCreatedAt: string;

@@ -18,6 +18,7 @@ import AdminAllJobBoard from "../pages/Admin/AdminAllJobBoard";
 import AdminAllEmployer from "../pages/Admin/AdminAllEmployer";
 import CookiesPolicy from "../pages/Common/settings/CookiesPolicy";
 import ConversationPage from "../pages/Common/ConversationPage";
+import Notifications from "../pages/Common/Notifications";
 
 export const adminPaths = [
   {
@@ -111,5 +112,10 @@ export const adminPaths = [
     key: "profile",
     name: "Profile",
     icon: settingsLogo,
+  },
+  {
+    path: "notifications",
+    element: <Notifications />,
+    key: "notifications",
   },
 ];

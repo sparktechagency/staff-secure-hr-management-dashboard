@@ -1,11 +1,10 @@
 import { Modal } from "antd";
-import ReuseButton from "../../Button/ReuseButton";
-import { ITransaction } from "../../../types";
+import { ISubscription } from "../../../types";
 
 interface TransactionViewModalProps {
   isViewModalVisible: boolean;
   handleCancel: () => void;
-  currentRecord: ITransaction | null;
+  currentRecord: ISubscription | null;
 }
 
 const TransactionViewModal: React.FC<TransactionViewModalProps> = ({
@@ -39,47 +38,54 @@ const TransactionViewModal: React.FC<TransactionViewModalProps> = ({
           </h3>
 
           <div className="text-xs sm:text-sm lg:text-base mt-3 space-y-2">
+            {/* Date */}
             <div className="flex items-center justify-between border-b border-[#E1E1E1] pb-2">
               <span className="font-semibold">Date:</span>
-              <span>{formatDate(currentRecord?.createdAt)}</span>
+              <span>{formatDate(currentRecord.buyTime)}</span>
             </div>
 
+            {/* Client Name */}
             <div className="flex items-center justify-between border-b border-[#E1E1E1] pb-2">
               <span className="font-semibold">Client Name:</span>
-              <span>{currentRecord?.userId?.name}</span>
-            </div>
-            <div className="flex items-center justify-between border-b border-[#E1E1E1] pb-2">
-              <span className="font-semibold">Professional Name:</span>
-              <span>{currentRecord?.serviceProviderId?.name}</span>
+              <span>{currentRecord.employerId?.name}</span>
             </div>
 
             <div className="flex items-center justify-between border-b border-[#E1E1E1] pb-2">
-              <span className="font-semibold text-nowrap">
-                Transaction ID:{" "}
-              </span>
+              <span className="font-semibold">Company Name:</span>
+              <span>{currentRecord.employerId?.companyName}</span>
+            </div>
+
+            {/* Email */}
+            <div className="flex items-center justify-between border-b border-[#E1E1E1] pb-2">
+              <span className="font-semibold">Email:</span>
+              <span>{currentRecord.employerId?.email}</span>
+            </div>
+
+            {/* Phone */}
+            <div className="flex items-center justify-between border-b border-[#E1E1E1] pb-2">
+              <span className="font-semibold">Phone:</span>
+              <span>{currentRecord.employerId?.phone}</span>
+            </div>
+
+            {/* Transaction / Payment ID */}
+            <div className="flex items-center justify-between border-b border-[#E1E1E1] pb-2">
+              <span className="font-semibold text-nowrap">Transaction ID:</span>
               <span className="text-wrap max-w-[200px] lg:max-w-[350px]">
-                {currentRecord?.transactionId}
+                {currentRecord.paymentId}
               </span>
             </div>
 
+            {/* Payment Method */}
             <div className="flex items-center justify-between border-b border-[#E1E1E1] pb-2">
               <span className="font-semibold">Payment Method:</span>
-              <span>{currentRecord?.paymentMethod}</span>
+              <span>{currentRecord.paymentMethod}</span>
             </div>
 
+            {/* Amount */}
             <div className="flex items-center justify-between font-bold">
               <span className="text-secondary-color">Amount:</span>
-              <span className="text-success">${currentRecord?.amount}</span>
+              <span className="text-success">£{currentRecord.finalAmount}</span>
             </div>
-          </div>
-
-          <div className="flex items-center justify-center mt-5">
-            <ReuseButton
-              variant="secondary"
-              className="!px-5 !py-4 !w-fit gap-2"
-            >
-              Download Invoice
-            </ReuseButton>
           </div>
         </div>
       </div>

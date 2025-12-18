@@ -1,54 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PiBriefcaseLight } from "react-icons/pi";
+import { IJobPlacement } from "../../../types";
+import SpinLoader from "../../../ui/SpinLoader";
 
-const QuickActionRequired = () => {
-  const notificationData = [
-    {
-      id: "1",
-      message: {
-        text: "Site Electrician",
-        compnay: "BuildTech Construction Ltd",
-        time: "5 minutes ago",
-      },
-      createdAt: new Date(),
-    },
-    {
-      id: "2",
-      message: {
-        text: "Site Electrician",
-        compnay: "BuildTech Construction Ltd",
-        time: "5 minutes ago",
-      },
-      createdAt: new Date(),
-    },
-    {
-      id: "3",
-      message: {
-        text: "Site Electrician",
-        compnay: "BuildTech Construction Ltd",
-        time: "5 minutes ago",
-      },
-      createdAt: new Date(),
-    },
-    {
-      id: "4",
-      message: {
-        text: "Site Electrician",
-        compnay: "BuildTech Construction Ltd",
-        time: "5 minutes ago",
-      },
-      createdAt: new Date(),
-    },
-    {
-      id: "5",
-      message: {
-        text: "Site Electrician",
-        compnay: "BuildTech Construction Ltd",
-        time: "5 minutes ago",
-      },
-      createdAt: new Date(),
-    },
-  ];
+const QuickActionRequired = ({
+  jobData,
+  isFetching,
+}: {
+  jobData: IJobPlacement[];
+  isFetching: boolean;
+}) => {
   return (
     <div
       className="w-full max-h-[300px] xl:max-h-[600px] overflow-y-auto rounded-xl relative  border border-[#E1E1E1]"
@@ -62,21 +22,25 @@ const QuickActionRequired = () => {
       </div>
 
       <div className="flex flex-col gap-5 p-5 bg-primary-color">
-        {notificationData?.map((activity: any, i: number) => (
-          <div key={i} className="space-y-2 p-3 rounded-xl bg-[#EFEFEF]">
-            <div className="flex items-center gap-2">
-              <div className="p-2 bg-secondary-color rounded-full">
-                <PiBriefcaseLight className="text-2xl text-primary-color" />
-              </div>
-              <div>
-                <p className="text-secondary-color text-xs sm:text-sm lg:text-base font-semibold">
-                  {activity?.message?.text}
-                </p>
-                <p className="text-sm">{activity?.message?.compnay}</p>
+        {isFetching ? (
+          <SpinLoader />
+        ) : (
+          jobData?.map((activity: IJobPlacement, i: number) => (
+            <div key={i} className="space-y-2 p-3 rounded-xl bg-[#EFEFEF]">
+              <div className="flex items-center gap-2">
+                <div className="p-2 bg-secondary-color rounded-full">
+                  <PiBriefcaseLight className="text-2xl text-primary-color" />
+                </div>
+                <div>
+                  <p className="text-secondary-color text-xs sm:text-sm lg:text-base font-semibold">
+                    {activity?.title}
+                  </p>
+                  <p className="text-sm">{activity?.employerId?.companyName}</p>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );

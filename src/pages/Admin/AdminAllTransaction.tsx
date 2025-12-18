@@ -3,114 +3,22 @@ import { useState } from "react";
 import ReuseSearchInput from "../../ui/Form/ReuseSearchInput";
 import TransactionTable from "../../ui/Tables/TransactionTable";
 import TransactionViewModal from "../../ui/Modal/Transactions/TransactionViewModal";
+import { useGetAllPaymentQuery } from "../../redux/features/payment/paymentApi";
+import { ISubscription } from "../../types";
 
 const AdminAllTransaction = () => {
-  const data: any = [
-    {
-      id: 1223,
-      name: "Lucas Jhonson",
-      email: "lucas01@gmail.com",
-      phone: "020 7946 0000",
-      date: "2025-10-31",
-      plan: "Bronze",
-      amount: 97,
-      duration: "3 months",
-    },
-    {
-      id: 1224,
-      name: "Lucas Jhonson",
-      email: "lucas01@gmail.com",
-      phone: "020 7946 0000",
-      date: "2025-10-31",
-      plan: "Platinum",
-      amount: 2394,
-      duration: "3 months",
-    },
-    {
-      id: 1225,
-      name: "Lucas Jhonson",
-      email: "lucas01@gmail.com",
-      phone: "020 7946 0000",
-      date: "2025-10-31",
-      plan: "Diamond",
-      amount: 1199,
-      duration: "1 month",
-    },
-    {
-      id: 1226,
-      name: "Lucas Jhonson",
-      email: "lucas01@gmail.com",
-      phone: "020 7946 0000",
-      date: "2025-10-31",
-      plan: "Bronze",
-      amount: 199,
-      duration: "1 month",
-    },
-    {
-      id: 1227,
-      name: "Lucas Jhonson",
-      email: "lucas01@gmail.com",
-      phone: "020 7946 0000",
-      date: "2025-10-31",
-      plan: "Bronze",
-      amount: 199,
-      duration: "1 month",
-    },
-    {
-      id: 1228,
-      name: "Lucas Jhonson",
-      email: "lucas01@gmail.com",
-      phone: "020 7946 0000",
-      date: "2025-10-31",
-      plan: "Bronze",
-      amount: 199,
-      duration: "1 month",
-    },
-    {
-      id: 1229,
-      name: "Lucas Jhonson",
-      email: "lucas01@gmail.com",
-      phone: "020 7946 0000",
-      date: "2025-10-31",
-      plan: "Bronze",
-      amount: 199,
-      duration: "1 month",
-    },
-    {
-      id: 1230,
-      name: "Lucas Jhonson",
-      email: "lucas01@gmail.com",
-      phone: "020 7946 0000",
-      date: "2025-10-31",
-      plan: "Bronze",
-      amount: 199,
-      duration: "1 month",
-    },
-    {
-      id: 1231,
-      name: "Lucas Jhonson",
-      email: "lucas01@gmail.com",
-      phone: "020 7946 0000",
-      date: "2025-10-31",
-      plan: "Bronze",
-      amount: 199,
-      duration: "1 month",
-    },
-    {
-      id: 1232,
-      name: "Lucas Jhonson",
-      email: "lucas01@gmail.com",
-      phone: "020 7946 0000",
-      date: "2025-10-31",
-      plan: "Bronze",
-      amount: 199,
-      duration: "1 month",
-    },
-  ];
   const limit = 12;
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState("");
-  console.log(searchText);
+
+  const { data, isFetching } = useGetAllPaymentQuery(
+    { page, limit, search: searchText },
+    { refetchOnMountOrArgChange: true }
+  );
+
+  const totalData: number = data?.data?.meta?.total || 0;
+  const allTransactions: ISubscription[] = data?.data?.result;
+
   const [isViewModalVisible, setIsViewModalVisible] = useState(false);
   const [currentRecord, setCurrentRecord] = useState<any | null>(null);
 
@@ -139,12 +47,12 @@ const AdminAllTransaction = () => {
         </div>
       </div>
       <TransactionTable
-        data={data}
-        loading={false}
+        data={allTransactions}
+        loading={isFetching}
         showViewModal={showViewUserModal}
         setPage={setPage}
         page={page}
-        total={data?.length}
+        total={totalData}
         limit={limit}
       />
       <TransactionViewModal

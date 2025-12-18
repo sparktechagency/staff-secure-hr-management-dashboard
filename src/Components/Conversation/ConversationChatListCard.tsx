@@ -73,8 +73,14 @@ const ConversationChatListCard = ({
             </div>
             <div className="flex justify-between items-center w-full">
               <div className="text-sm">
-                {conversation?.lastMessage
-                  ? `${conversation?.lastMessage.slice(0, 10)}...`
+                {conversation?.lastMessage?.length > 0
+                  ? `${
+                      conversation?.lastMessage?.length > 10
+                        ? conversation?.lastMessage?.slice(0, 10) + "..."
+                        : conversation?.lastMessage?.slice(0, 10)
+                    } `
+                  : conversation?.images?.length > 0
+                  ? "Send an Attachment"
                   : ""}
               </div>
               <div className="text-xs">

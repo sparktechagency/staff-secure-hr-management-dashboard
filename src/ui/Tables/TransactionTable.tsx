@@ -3,13 +3,13 @@ import React from "react";
 import { Space, Tooltip } from "antd";
 import { GoEye } from "react-icons/go";
 import ReuseTable from "../../utils/ReuseTable";
-import { ITransaction } from "../../types";
+import { ISubscription } from "../../types";
 
 // Define the type for the props
 interface TransactionTableProps {
-  data: ITransaction[]; // Replace `unknown` with the actual type of your data array
+  data: ISubscription[]; // Replace `unknown` with the actual type of your data array
   loading: boolean;
-  showViewModal: (record: ITransaction) => void; // Function to handle viewing a user
+  showViewModal: (record: ISubscription) => void; // Function to handle viewing a user
   setPage: (page: number) => void; // Function to handle pagination
   page: number;
   total: number;
@@ -35,68 +35,69 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
     },
     {
       title: "Name",
-      dataIndex: "name",
       key: "name",
+      render: (record: ISubscription) => record.employerId?.name || "-",
     },
     {
       title: "Company Name",
-      dataIndex: "companyName",
       key: "companyName",
+      render: (record: ISubscription) => record.employerId?.companyName || "-",
     },
     {
       title: "Email",
-      dataIndex: "email",
       key: "email",
+      render: (record: ISubscription) => record.employerId?.email || "-",
     },
     {
       title: "Telephone Number",
-      dataIndex: "phone",
       key: "phone",
+      render: (record: ISubscription) => record.employerId?.phone || "-",
     },
     {
       title: "Date",
-      dataIndex: "date",
-      key: "date",
-      render: (date: string) => new Date(date).toLocaleDateString("en-GB"),
+      key: "buyTime",
+      render: (record: ISubscription) =>
+        new Date(record.buyTime).toLocaleDateString("en-GB"),
     },
     {
       title: "Plan",
-      dataIndex: "plan",
-      key: "plan",
-      render: (plan: string) => {
-        const colors: any = {
+      key: "subscriptionType",
+      render: (record: ISubscription) => {
+        const colors: Record<string, string> = {
           Bronze: "bg-orange-100 text-orange-800",
           Silver: "bg-gray-100 text-gray-800",
           Gold: "bg-yellow-100 text-yellow-800",
           Platinum: "bg-blue-100 text-blue-800",
           Diamond: "bg-purple-100 text-purple-800",
         };
+
         return (
           <span
             className={`px-3 py-1 rounded-full text-xs font-medium ${
-              colors[plan] || "bg-gray-100"
+              colors[record.subscriptionType] || "bg-gray-100 text-gray-800"
             }`}
           >
-            {plan}
+            {record.subscriptionType}
           </span>
         );
       },
     },
     {
       title: "Total Paid (per month)",
-      dataIndex: "amount",
       key: "amount",
-      render: (amount: number, record: any) => (
+      render: (record: ISubscription) => (
         <div className="font-semibold text-gray-900">
-          £{amount.toLocaleString()}
-          <span className="text-xs text-gray-500 block">{record.duration}</span>
+          £{record.finalAmount.toLocaleString()}
+          <span className="text-xs text-gray-500 block">
+            {record.durationInMonths} month(s)
+          </span>
         </div>
       ),
     },
     {
       title: "Action",
       key: "action",
-      render: (_: unknown, record: ITransaction) => (
+      render: (_: unknown, record: ISubscription) => (
         <Space size="middle">
           {/* View Details Tooltip */}
           <Tooltip placement="right" title="View Details">

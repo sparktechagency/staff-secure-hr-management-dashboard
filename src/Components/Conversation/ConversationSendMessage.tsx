@@ -76,6 +76,7 @@ const ConversationSendMessage = ({ socket }: any) => {
       chatId: selectedConversation?.chat?._id,
       ...(values?.message?.length > 0 ? { text: values?.message } : {}),
       ...(uploadedImages.length > 0 ? { images: uploadedImages } : {}),
+      from: "Admin",
     };
 
     console.log(data);

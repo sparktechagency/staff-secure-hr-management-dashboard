@@ -35,7 +35,7 @@ const ConversationChatList = ({ userData, onlineUsers }: any) => {
     );
 
   const handleNewMessage = useCallback((message: any) => {
-    const { chatId, text, sender, time } = message;
+    const { chatId, text, sender, time, images } = message;
 
     // Find if this conversation already exists
     setChatList((prevChatList: IConversation[]) => {
@@ -69,6 +69,7 @@ const ConversationChatList = ({ userData, onlineUsers }: any) => {
           },
           lastMessage: text,
           lastMessageSender: sender._id,
+          images: images || [],
           unreadMessageCount: 1,
           message: text,
           lastMessageCreatedAt: time,

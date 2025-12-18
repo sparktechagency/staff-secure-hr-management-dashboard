@@ -2,12 +2,21 @@ import Area_Chart from "../../Chart/AreaChart";
 import YearOption from "../../../utils/YearOption";
 import { useState } from "react";
 import { ConfigProvider, Select } from "antd";
+import { useGetUserOverviewStatsQuery } from "../../../redux/features/overview/overviewApi";
 
 const UserOverview = () => {
   const currentYear = new Date().getFullYear();
   const [year, setYear] = useState(currentYear);
 
-  console.log(year);
+  const [userType, setUserType] = useState("candidate");
+
+  const { data } = useGetUserOverviewStatsQuery(
+    { role: userType, year },
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
+
   return (
     <div className="w-full lg:w-1/2 p-3 bg-[#FFFFFF] rounded-lg border border-[#E1E1E1]">
       <div className="flex justify-between text-base-color mt-4">
@@ -36,7 +45,12 @@ const UserOverview = () => {
               },
             }}
           >
-            <Select placeholder="Select User" style={{ width: 150 }}>
+            <Select
+              onChange={(value) => setUserType(value)}
+              value={userType}
+              placeholder="Select User"
+              style={{ width: 150 }}
+            >
               <Select.Option value="candidate">Candidate</Select.Option>
               <Select.Option value="employer">Employer</Select.Option>
             </Select>
@@ -47,7 +61,7 @@ const UserOverview = () => {
         </div>
       </div>
       <div>
-        <Area_Chart />
+        <Area_Chart data={data?.data} />
       </div>
     </div>
   );

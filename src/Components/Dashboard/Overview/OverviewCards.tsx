@@ -1,43 +1,59 @@
 import { RiShoppingBag2Fill } from "react-icons/ri";
 import { HiUsers } from "react-icons/hi";
 import { MdAttachMoney } from "react-icons/md";
+import { useGetStatsQuery } from "../../../redux/features/overview/overviewApi";
+
+interface IOverviewData {
+  totalEmployers: number;
+  totalCandidates: number;
+  totalEarnings: number;
+  totalCvsDispatch: number;
+  totalPlacement: number;
+}
 
 const OverviewCards = () => {
+  const { data, isFetching } = useGetStatsQuery(
+    {},
+    { refetchOnMountOrArgChange: true }
+  );
+
+  const overviewData: IOverviewData = data?.data || {};
+
   const countData = [
     {
       id: 1,
       background: "#ffffff",
       name: "Total Employers",
       icon: <HiUsers className="size-5 text-secondary-color" />,
-      count: 1000,
+      count: overviewData.totalEmployers || 0,
     },
     {
       id: 2,
       background: "#ffffff",
       name: "Total Candidates",
       icon: <HiUsers className="size-5 text-secondary-color" />,
-      count: 800,
+      count: overviewData.totalCandidates || 0,
     },
     {
       id: 3,
       background: "#ffffff",
       name: "Earnings",
       icon: <HiUsers className="size-6 text-secondary-color" />,
-      count: "£567",
+      count: `£${overviewData.totalEarnings || 0}`,
     },
     {
       id: 4,
       background: "#ffffff",
       name: "Total CV Placed",
       icon: <RiShoppingBag2Fill className="size-6 text-secondary-color" />,
-      count: 150,
+      count: overviewData.totalCvsDispatch || 0,
     },
     {
       id: 4,
       background: "#ffffff",
       name: "Total Placement",
       icon: <MdAttachMoney className="size-6 text-secondary-color" />,
-      count: 54,
+      count: overviewData.totalPlacement || 0,
     },
   ];
   return (
@@ -59,12 +75,8 @@ const OverviewCards = () => {
               <p>{item?.icon}</p>
             </div>
             <p className="text-lg sm:text-xl lg:text-2xl  font-bold capitalize tracking-wider">
-              {item.count}
+              {isFetching ? "..." : item.count}
             </p>
-            <p className="text-xs lg:text-sm capitalize tracking-wider mt-2 font-semibold">
-              <span className="text-success"> +12</span> from last month
-            </p>
-            {/* <div className="bg-[#FAF4FF] p-3 rounded-full">{item.icon}</div> */}
           </div>
         </div>
       ))}

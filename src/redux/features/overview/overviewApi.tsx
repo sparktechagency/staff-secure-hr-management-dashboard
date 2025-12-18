@@ -6,35 +6,58 @@ const overviewApi = baseApi.injectEndpoints({
     getStats: builder.query({
       query: () => {
         return {
-          url: "/users/admin/dashboard-stats",
+          url: "/overview/admin/total-overview",
           method: "GET",
         };
       },
       //   providesTags: [tagTypes.],
     }),
-    getMonthlyEarningStats: builder.query({
+    getUserOverviewStats: builder.query({
+      query: ({ role, year }) => {
+        return {
+          url: `/overview/admin/user-statistics?role=${role}&year=${year}`,
+          method: "GET",
+        };
+      },
+      //   providesTags: [tagTypes.],
+    }),
+    getEarningStats: builder.query({
       query: ({ year }) => {
         return {
-          url: `/users/monthly-commission-statistics?year=${year}`,
+          url: `/overview/admin/earning-statistics?year=${year}`,
           method: "GET",
         };
       },
       //   providesTags: [tagTypes.],
     }),
-    getOrderStats: builder.query({
-      query: ({ type }) => {
+    getNotificationAndJob: builder.query({
+      query: () => {
         return {
-          url: `/users/orders/stats?type=${type}`,
+          url: `/overview/admin/latest-notifications-and-jobs`,
           method: "GET",
         };
       },
       //   providesTags: [tagTypes.],
+    }),
+    getAllNotifications: builder.query({
+      query: ({ page, limit }) => {
+        return {
+          url: `/notification`,
+          method: "GET",
+          params: {
+            page,
+            limit,
+          },
+        };
+      },
     }),
   }),
 });
 
 export const {
   useGetStatsQuery,
-  useGetMonthlyEarningStatsQuery,
-  useGetOrderStatsQuery,
+  useGetUserOverviewStatsQuery,
+  useGetEarningStatsQuery,
+  useGetNotificationAndJobQuery,
+  useGetAllNotificationsQuery,
 } = overviewApi;
