@@ -83,4 +83,43 @@ interface IApplication {
   forwardedAt: string | null;
 }
 
-export type { IJob, IAppliciantData, IApplication };
+interface ITopApplication {
+  _id: string;
+
+  candidateId: {
+    _id: string;
+    name: string;
+    email: string;
+    designation: string;
+    yearsOfExperience: number;
+    bio: string;
+    cv: string;
+    location: string;
+    availability: string;
+    skills: string[];
+  };
+
+  jobId: {
+    _id: string;
+    title: string;
+    experience: number;
+    description: string;
+    skillsRequired: string[];
+  };
+
+  jobProviderOwnerId: {
+    _id: string;
+    name: string;
+    email: string;
+    companyName: string;
+  };
+  matchedSkills: string[];
+  status: "applied" | "shortlisted" | "rejected" | "hired";
+  aiScore: number;
+  aiReason: string;
+  aiMatchLevel: string;
+  adminNotes: string;
+  appliedAt: string; // ISO date
+}
+
+export type { IJob, IAppliciantData, IApplication, ITopApplication };

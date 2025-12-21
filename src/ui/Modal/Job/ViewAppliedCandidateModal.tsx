@@ -30,7 +30,7 @@ const ViewAppliedCandidateModal = ({
 
   const { data, isFetching } = useGetAllApplicantsQuery(
     { id: currentRecord?._id, limit, page, search: searchText },
-    { refetchOnMountOrArgChange: true, skip: !currentRecord }
+    { refetchOnMountOrArgChange: true, skip: !currentRecord || !isModalVisible }
   );
 
   console.log(data);
