@@ -43,8 +43,8 @@ jobs:
             npm run build
 
             # Restart if exists, otherwise start (production)
-            if pm2 describe Website > /dev/null 2>&1; then
-              pm2 restart Website
+            if pm2 describe Dashboard > /dev/null 2>&1; then
+              pm2 restart Dashboard
             else
               pm2 start npm --name "Dashboard" -- run dev -- --host 0.0.0.0 --port 3001
             fi
@@ -52,4 +52,4 @@ jobs:
             # Save PM2 process list
             pm2 save
 
-            echo "✅ Website deployment (build + start) finished!"
+            echo "✅ Dashboard deployment (build + start) finished!"
