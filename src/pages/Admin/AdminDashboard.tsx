@@ -11,8 +11,8 @@ const AdminDashboard = () => {
     refetchOnMountOrArgChange: true,
   });
 
-  const jobData: IJobPlacement[] = data?.data?.jobs || 0;
-  const notificationData: INotification[] = data?.data?.notifications || 0;
+  const jobData: IJobPlacement[] = data?.data?.jobs || [];
+  const notificationData: INotification[] = data?.data?.notifications || [];
 
   return (
     <div>

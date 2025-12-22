@@ -36,7 +36,7 @@ const Topbar = ({ collapsed, setCollapsed }: any) => {
         refetchOnMountOrArgChange: open,
       }
     );
-  const notificationData: INotification[] = notification?.data?.result;
+  const notificationData: INotification[] = notification?.data?.result || [];
 
   const notificationMenu = (
     <div
