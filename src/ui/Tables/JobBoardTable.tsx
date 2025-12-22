@@ -171,6 +171,15 @@ const JobBoardTable: React.FC<JobBoardTableProps> = ({
       dataIndex: "status",
       key: "status",
       align: "center" as const,
+      render: (status: string) => (
+        <span
+          className={`${
+            status === "New" ? "text-secondary-color" : "text-success"
+          }`}
+        >
+          {status}
+        </span>
+      ),
     },
     {
       title: "Send CV",

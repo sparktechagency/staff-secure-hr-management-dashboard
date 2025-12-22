@@ -63,6 +63,13 @@ const jobBoardApi = baseApi.injectEndpoints({
       }),
       providesTags: [tagTypes.jobBoard],
     }),
+    getAllAITopPlacementCandidates: builder.query({
+      query: ({ path }) => ({
+        url: `/application/top-ai-suggested-cvs/${path}`,
+        method: "GET",
+      }),
+      providesTags: [tagTypes.jobBoard],
+    }),
     sendDirectCv: builder.mutation({
       query: (req) => ({
         url: `/application/send-cv/${req.params.id}`,
@@ -71,6 +78,15 @@ const jobBoardApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.jobBoard],
     }),
+    sendMultipleCv: builder.mutation({
+      query: (req) => ({
+        url: `/application/sent-multiple-cvs`,
+        method: "PATCH",
+        body: req.body,
+      }),
+      invalidatesTags: [tagTypes.jobBoard],
+    }),
+
     // updateCategory: builder.mutation({
     //   query: (req) => ({
     //     url: `/category/update/${req.params.id}`,
@@ -96,5 +112,7 @@ export const {
   useGetAllApplicantsQuery,
   useGetAllDispatchedCVsQuery,
   useGetAllPlacementCandidatesQuery,
+  useGetAllAITopPlacementCandidatesQuery,
   useSendDirectCvMutation,
+  useSendMultipleCvMutation,
 } = jobBoardApi;
