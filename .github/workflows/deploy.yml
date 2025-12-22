@@ -46,7 +46,7 @@ jobs:
             if pm2 describe Dashboard > /dev/null 2>&1; then
               pm2 restart Dashboard
             else
-              pm2 start npm --name "Dashboard" -- run dev -- --host 0.0.0.0 --port 3001
+              pm2 start npm --name "Dashboard" -- run preview -- --host 0.0.0.0 --port 3001
             fi
 
             # Save PM2 process list
