@@ -30,7 +30,13 @@ const AdminAllCandidates = () => {
   const [blockAndUnblock] = useBlockAndUnblockUserMutation();
 
   const { data, isFetching } = useGetAllCandidatesQuery(
-    { page, limit, searchTerm: searchText },
+    {
+      page,
+      limit,
+      searchTerm: searchText,
+      designation: searchDesignationText,
+      location: searchLocationText,
+    },
     { refetchOnMountOrArgChange: true }
   );
 

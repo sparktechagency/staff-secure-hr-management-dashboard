@@ -36,7 +36,7 @@ const CandidatesTable: React.FC<CandidatesTableProps> = ({
   const columns = [
     {
       title: "ID",
-      key: "id",
+      key: "_id",
       width: 80,
       render: (_: any, __: any, index: number) => (
         <span className="font-medium text-gray-700">
@@ -62,9 +62,9 @@ const CandidatesTable: React.FC<CandidatesTableProps> = ({
       render: (phone: string) => <span>{phone || "N/A"}</span>,
     },
     {
-      title: "Role",
+      title: "Designation",
       dataIndex: ["candidateProfileId", "designation"],
-      key: "role",
+      key: "designation",
       render: (role: string) => (
         <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
           {role || "N/A"}
@@ -161,7 +161,7 @@ const CandidatesTable: React.FC<CandidatesTableProps> = ({
       total={total}
       limit={limit}
       page={page}
-      keyValue={"id"}
+      keyValue={"_id"}
     />
   );
 };

@@ -15,8 +15,8 @@ const UsersApi = baseApi.injectEndpoints({
       providesTags: [tagTypes.user],
     }),
     getAllCandidates: builder.query({
-      query: ({ page, limit, searchTerm }) => ({
-        url: `/users/candidate/all?page=${page}&limit=${limit}&searchTerm=${searchTerm}`,
+      query: ({ page, limit, searchTerm, designation, location }) => ({
+        url: `/users/candidate/all?page=${page}&limit=${limit}&searchTerm=${searchTerm}&designation=${designation}&location=${location}`,
         method: "GET",
       }),
       providesTags: [tagTypes.user],
