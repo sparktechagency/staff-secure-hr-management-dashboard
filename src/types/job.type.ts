@@ -3,6 +3,11 @@ interface SalaryRange {
   max: number;
 }
 
+type workTypeType = "Full-Time" | "Part-Time" | "Temporary";
+type JobStatus = "New" | "CVs Sent" | "Closed";
+
+type JobType = "Onsite" | "Remote" | "Hybrid";
+
 interface IEmployer {
   _id: string;
   name: string;
@@ -11,35 +16,41 @@ interface IEmployer {
 }
 
 interface IJob {
-  _id: string;
-  employerId: IEmployer;
-  jobReferralCode: string;
+  _id: string; // PK
+  employerId: IEmployer; // FK
 
   title: string;
   location: string;
-  jobType: "Onsite" | "Remote" | "Hybrid";
-  workType: "Full-Time" | "Part-Time" | "Contract";
-
-  experience: number;
-  workersNeeded: number;
-
-  salaryRange: SalaryRange;
-
+  county: string;
+  area: string;
+  postalCode: string;
+  jobType: JobType; // Adjusted based on your data
+  workType: workTypeType; // Adjusted based on your data
+  lengthOfWork: string; // Changed to string to reflect the example ('6 Month')
+  paymentType: "Hourly" | "Monthly" | "Weekly"; // Added 'Weekly' based on your data
+  salaryRange: SalaryRange; // { min: number, max: number }
+  overtimePayRate?: number; // Optional field based on your data
+  annualPay: number;
+  hourlyRequired: number;
+  startDate: Date;
+  startTime: string;
+  finishTime: string;
+  daysOfWork: string[]; // Array of weekdays
+  experience: number; // Number of years
   description: string;
-  keyResponsibilities: string[];
-  requirements: string[];
-  benefits: string[];
-  skillsRequired: string[];
+  candidateDuties: string[]; // List of duties
+  documentationCertificates: string[]; // List of documents or certificates
+  benefits: string[]; // List of benefits
+  additionalInformation?: string; // Optional additional info field
 
-  lastApplyDate: string; // ISO date string
-  status: "New" | "Active" | "Closed";
-
+  lastApplyDate: Date;
+  status: JobStatus; // Adjusted status types based on the example
   isDeleted: boolean;
+  jobReferralCode: string; // Unique identifier for the job
 
-  createdAt: string; // ISO date string
-  updatedAt: string; // ISO date string
-
-  totalApplicant: number;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
 }
 
 interface IAppliciantData {
@@ -95,6 +106,9 @@ interface ITopApplication {
     bio: string;
     cv: string;
     location: string;
+    area: string;
+    postalCode: string;
+    county: string;
     availability: string;
     skills: string[];
   };

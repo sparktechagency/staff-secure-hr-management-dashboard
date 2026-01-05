@@ -46,14 +46,16 @@ const AdminAllCandidates = () => {
   const [isBlockModalVisible, setIsBlockModalVisible] = useState(false);
   const [isUnblockModalVisible, setIsUnblockModalVisible] = useState(false);
   const [currentRecord, setCurrentRecord] = useState<any>(null);
+  const [url, setUrl] = useState(null);
 
   const showViewModal = (data: any) => {
     setIsViewModalVisible(true);
     setCurrentRecord(data);
   };
 
-  const showViewCVModal = (data: ICandidate) => {
+  const showViewCVModal = (data: ICandidate, doc: any) => {
     setIsViewCVModalVisible(true);
+    setUrl(doc);
     setCurrentRecord(data);
   };
 
@@ -73,6 +75,7 @@ const AdminAllCandidates = () => {
     setIsBlockModalVisible(false);
     setIsUnblockModalVisible(false);
     setCurrentRecord(null);
+    setUrl(null);
   };
 
   const handleBlock = async (record: ICandidate) => {
@@ -131,10 +134,10 @@ const AdminAllCandidates = () => {
               level={5}
               className="text-base sm:text-lg lg:text-xl font-bold text-base-color"
             >
-              Designation
+              Occupation
             </Typography.Title>
             <ReuseSearchInput
-              placeholder="Search Designation..."
+              placeholder="Search Occupation..."
               setSearch={setSearchDesignationText}
               setPage={setPage}
             />
@@ -191,6 +194,7 @@ const AdminAllCandidates = () => {
         isViewCVModalVisible={isViewCVModalVisible}
         handleCancel={handleCancel}
         currentRecord={currentRecord}
+        url={url || ""}
       />
     </div>
   );

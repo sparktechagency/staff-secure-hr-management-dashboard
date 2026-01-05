@@ -38,6 +38,8 @@ const ViewAISuggetCandidateModal: React.FC<ViewAISuggetCandidateModalProps> = ({
 
   const topCandidate = data?.data || [];
 
+  console.log(topCandidate)
+
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [adminNotes, setAdminNotes] = useState<Record<string, string>>({});
 
@@ -135,18 +137,17 @@ const ViewAISuggetCandidateModal: React.FC<ViewAISuggetCandidateModalProps> = ({
 
         <div className="border-t border-gray-300 my-6" />
 
-        <ReusableForm handleFinish={() => {}} form={form}>
+        <ReusableForm handleFinish={() => { }} form={form}>
           {isFetching ? (
             <SpinLoader />
           ) : (
             topCandidate.map((candidate: ITopApplication) => (
               <div
                 key={candidate._id}
-                className={`relative mb-6 p-6 rounded-lg border-2 transition-all ${
-                  isSelected(candidate._id)
-                    ? "border-secondary-color bg-blue-50"
-                    : "border-gray-300 bg-white"
-                }`}
+                className={`relative mb-6 p-6 rounded-lg border-2 transition-all ${isSelected(candidate._id)
+                  ? "border-secondary-color bg-blue-50"
+                  : "border-gray-300 bg-white"
+                  }`}
               >
                 <div className="flex gap-2">
                   <Checkbox
@@ -172,6 +173,18 @@ const ViewAISuggetCandidateModal: React.FC<ViewAISuggetCandidateModalProps> = ({
                   <div>
                     <strong>Location:</strong>{" "}
                     {candidate?.candidateId?.location}
+                  </div>
+                  <div>
+                    <strong>Area:</strong>{" "}
+                    {candidate?.candidateId?.area}
+                  </div>
+                  <div>
+                    <strong>County:</strong>{" "}
+                    {candidate?.candidateId?.county}
+                  </div>
+                  <div>
+                    <strong>Postal Code:</strong>{" "}
+                    {candidate?.candidateId?.postalCode}
                   </div>
                   <div>
                     <strong>Availability:</strong>{" "}

@@ -6,12 +6,14 @@ interface ViewCVModalProps {
   isViewCVModalVisible: boolean;
   handleCancel: () => void;
   currentRecord: any | null;
+  url: string;
 }
 
 const ViewCVModal: React.FC<ViewCVModalProps> = ({
   isViewCVModalVisible,
   handleCancel,
   currentRecord,
+  url,
 }) => {
   const serverUrl = getImageUrl();
   return (
@@ -27,11 +29,11 @@ const ViewCVModal: React.FC<ViewCVModalProps> = ({
       footer={false}
     >
       <p className="text-xl font-semibold pt-10 pb-4 text-secondary-color">
-        {currentRecord?.name} CV
+        {currentRecord?.name}
       </p>
 
       <iframe
-        src={serverUrl + currentRecord?.cv}
+        src={serverUrl + url}
         width="100%"
         height="800px"
         allowFullScreen

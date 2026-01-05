@@ -22,6 +22,9 @@ interface ICandidate {
   candidateProfileId: {
     _id: string;
     location: string;
+    area: string;
+    postalCode: string;
+    county: string;
     designation: string;
     dateOfBirth: string; // ISO string
     yearsOfExperience: number;
@@ -30,6 +33,7 @@ interface ICandidate {
     availability: string;
     bio: string;
     cv: string;
+    documentAndCertifications: string[];
   };
   status: string;
   isDeleted: boolean;

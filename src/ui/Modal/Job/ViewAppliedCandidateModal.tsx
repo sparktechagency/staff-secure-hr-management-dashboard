@@ -23,6 +23,7 @@ const ViewAppliedCandidateModal = ({
     useState(false);
   const [currentApplicant, setCurrentApplicant] =
     useState<IAppliciantData | null>(null);
+  const [url, setUrl] = useState<string | null>(null);
 
   const [page, setPage] = useState(1);
   const [searchText, setSearchText] = useState("");
@@ -38,8 +39,9 @@ const ViewAppliedCandidateModal = ({
   const totalData: number = data?.data?.meta?.total || 0;
   const allApplicants: IAppliciantData[] = data?.data?.result;
 
-  const showViewCVModal = (data: IAppliciantData) => {
+  const showViewCVModal = (data: IAppliciantData, doc: string) => {
     setIsViewCVModalVisible(true);
+    setUrl(doc);
     setCurrentApplicant(data);
   };
 
@@ -51,6 +53,7 @@ const ViewAppliedCandidateModal = ({
   const handleModalCancel = () => {
     setIsViewCVModalVisible(false);
     setIsSendDirectCVModalVisible(false);
+    setUrl(null);
     setCurrentApplicant(null);
   };
 
@@ -103,6 +106,7 @@ const ViewAppliedCandidateModal = ({
         isViewCVModalVisible={isViewCVModalVisible}
         handleCancel={handleModalCancel}
         currentRecord={currentApplicant}
+        url={url || ""}
       />
       <SendDirectCVModal
         isSendDirectCVModalVisible={isSendDirectCVModalVisible}

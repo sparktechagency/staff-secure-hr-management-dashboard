@@ -4,6 +4,7 @@ import ReuseTable from "../../utils/ReuseTable";
 import { Space, Tag, Tooltip } from "antd";
 import { MdBlock } from "react-icons/md";
 import { CgUnblock } from "react-icons/cg";
+import { formatDate } from "../../utils/dateFormet";
 
 // Define the type for the props
 interface EmployerTableProps {
@@ -83,11 +84,10 @@ const EmployerTable: React.FC<EmployerTableProps> = ({
       key: "status",
       render: (status: string) => (
         <span
-          className={`px-3 py-1 rounded-full text-xs font-medium capitalize ${
-            status === "active"
+          className={`px-3 py-1 rounded-full text-xs font-medium capitalize ${status === "active"
               ? "bg-green-100 text-green-700"
               : "bg-red-100 text-red-700"
-          }`}
+            }`}
         >
           {status}
         </span>
@@ -108,7 +108,7 @@ const EmployerTable: React.FC<EmployerTableProps> = ({
       key: "renewalDate",
       render: (date: string | null) =>
         date ? (
-          <span className="text-gray-700">{date}</span>
+          <span className="text-gray-700">{formatDate(date)}</span>
         ) : (
           <span className="text-gray-400 text-xs">—</span>
         ),

@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { AllImages } from "../../../public/images/AllImages";
 import { getImageUrl } from "../../helpers/config/envConfig";
 import {
   selectSelectedChatUser,
@@ -30,18 +31,17 @@ const ConversationChatListCard = ({
   return (
     <div
       onClick={() => handleConversationSelect(conversation)}
-      className={`m-1 rounded  border-b border-secondary-color/10 bg-secondary-color/10 text-black ${
-        conversation?.chat?._id === selectedConversation?.chat?._id
-          ? "!bg-secondary-color text-white"
-          : ""
-      }`}
+      className={`m-1 rounded  border-b border-secondary-color/10 bg-secondary-color/10 text-black ${conversation?.chat?._id === selectedConversation?.chat?._id
+        ? "!bg-secondary-color text-white"
+        : ""
+        }`}
     >
       <div className="py-4 px-2 cursor-pointer">
         <div className="flex items-center gap-2">
           <img
             loading="lazy"
             className="rounded-full aspect-square h-12 w-fit object-cover relative"
-            src={imageUrl + "/" + imageUrlSrc}
+            src={imageUrlSrc?.length > 0 ? imageUrl + "/" + imageUrlSrc : AllImages?.profile}
             width={100}
             height={100}
             alt="Profile"
@@ -60,9 +60,9 @@ const ConversationChatListCard = ({
                       : conversation?.users?.[0]?.petName} */}
                     {conversation?.chat?.users?.[0]?.name?.length > 15
                       ? `${conversation?.chat?.users?.[0]?.name.slice(
-                          0,
-                          15
-                        )}...`
+                        0,
+                        15
+                      )}...`
                       : conversation?.chat?.users?.[0]?.name}
                   </p>
                   {onlineUsers?.includes(
@@ -74,14 +74,13 @@ const ConversationChatListCard = ({
             <div className="flex justify-between items-center w-full">
               <div className="text-sm">
                 {conversation?.lastMessage?.length > 0
-                  ? `${
-                      conversation?.lastMessage?.length > 10
-                        ? conversation?.lastMessage?.slice(0, 10) + "..."
-                        : conversation?.lastMessage?.slice(0, 10)
-                    } `
+                  ? `${conversation?.lastMessage?.length > 10
+                    ? conversation?.lastMessage?.slice(0, 10) + "..."
+                    : conversation?.lastMessage?.slice(0, 10)
+                  } `
                   : conversation?.images?.length > 0
-                  ? "Send an Attachment"
-                  : ""}
+                    ? "Send an Attachment"
+                    : ""}
               </div>
               <div className="text-xs">
                 {conversation?.lastMessageCreatedAt

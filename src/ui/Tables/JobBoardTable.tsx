@@ -40,13 +40,13 @@ const JobBoardTable: React.FC<JobBoardTableProps> = ({
       fixed: "left",
     },
     {
-      title: "Title",
+      title: "Candidate Required For",
       dataIndex: "title",
       key: "title",
       fixed: "left",
     },
     {
-      title: "Employer",
+      title: "Employer Information",
       dataIndex: "employerId",
       key: "employerId",
       render: (emp: { name: string; companyName: string }) => (
@@ -61,7 +61,7 @@ const JobBoardTable: React.FC<JobBoardTableProps> = ({
       title: "Location",
       dataIndex: "location",
       key: "location",
-      render: (loc: string) => (
+      render: (loc: string, record: IJob) => (
         <span className="text-gray-600 flex items-center gap-1">
           <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
             <path
@@ -70,44 +70,52 @@ const JobBoardTable: React.FC<JobBoardTableProps> = ({
               clipRule="evenodd"
             />
           </svg>
-          {loc}
+          {loc} - {record?.area} - {record?.postalCode}
         </span>
       ),
+    },
+    {
+      title: "County",
+      dataIndex: "county",
+      key: "county",
     },
     {
       title: "Salary Range",
       dataIndex: "salaryRange",
       key: "salaryRange",
       align: "center" as const,
-      render: (salary: { min: number; max: number }) => (
+      render: (_: IJob, record: IJob) => (
         <span className="">
-          {salary.min}£ - {salary.max}£
+          £{record?.salaryRange?.min} - £{record?.salaryRange?.max} / {record?.paymentType !== "Monthly" ? "Hour" : "Month"}
         </span>
       ),
     },
     {
-      title: "Experience",
+      title: "Years of Experience",
       dataIndex: "experience",
       key: "experience",
       align: "center" as const,
       render: (exp: number) => <span>{exp} Yrs</span>,
     },
     {
-      title: "Work Type",
+      title: "Hour Required per week",
+      dataIndex: "hourlyRequired",
+      key: "hourlyRequired",
+      align: "center" as const,
+    },
+    {
+      title: "Employment type",
       dataIndex: "workType",
       key: "workType",
+      render: (_: IJob, record: IJob) => (
+        <span className="">{record.workType === "Full-Time" ? "Full Time" : record.workType === "Part-Time" ? "Part Time" : record.workType + " - " + record.lengthOfWork}</span>
+      ),
       align: "center" as const,
     },
     {
-      title: "Job Type",
+      title: "Work arrangement",
       dataIndex: "jobType",
       key: "jobType",
-      align: "center" as const,
-    },
-    {
-      title: "Workers Needed",
-      dataIndex: "workersNeeded",
-      key: "workersNeeded",
       align: "center" as const,
     },
     {
@@ -134,7 +142,7 @@ const JobBoardTable: React.FC<JobBoardTableProps> = ({
       ),
     },
     {
-      title: "Description",
+      title: "Project Description",
       dataIndex: "description",
       key: "description",
       width: 300,
@@ -147,21 +155,40 @@ const JobBoardTable: React.FC<JobBoardTableProps> = ({
       ),
     },
     {
-      title: "Job Post Date",
+      title: "Start Date",
+      dataIndex: "startDate",
+      key: "startDate",
+      align: "center" as const,
+      render: (date: Date) => <span>{formatDate(date)}</span>,
+    },
+    {
+      title: "Start Time",
+      dataIndex: "startTime",
+      key: "startTime",
+      align: "center" as const,
+    },
+    {
+      title: "Finish Time",
+      dataIndex: "finishTime",
+      key: "finishTime",
+      align: "center" as const,
+    },
+    {
+      title: "Post Date",
       dataIndex: "createdAt",
       key: "createdAt",
       align: "center" as const,
       render: (date: Date) => <span>{formatDate(date)}</span>,
     },
     {
-      title: "Last Apply Date",
+      title: "Closing Date of Project",
       dataIndex: "lastApplyDate",
       key: "lastApplyDate",
       align: "center" as const,
       render: (date: Date) => <span>{formatDate(date)}</span>,
     },
     {
-      title: "Job Referral Code",
+      title: "Referral Code",
       dataIndex: "jobReferralCode",
       key: "jobReferralCode",
       align: "center" as const,
@@ -173,9 +200,8 @@ const JobBoardTable: React.FC<JobBoardTableProps> = ({
       align: "center" as const,
       render: (status: string) => (
         <span
-          className={`${
-            status === "New" ? "text-secondary-color" : "text-success"
-          }`}
+          className={`${status === "New" ? "text-secondary-color" : "text-success"
+            }`}
         >
           {status}
         </span>

@@ -13,6 +13,7 @@ const UserModal: React.FC<UserModalProps> = ({
   handleCancel,
   currentRecord,
 }) => {
+  console.log(currentRecord)
   const serverUrl = getImageUrl();
   return (
     <Modal
@@ -26,7 +27,7 @@ const UserModal: React.FC<UserModalProps> = ({
         {/* Header */}
         <div className="flex items-center gap-6 mb-6">
           <img
-            src={serverUrl + currentRecord?.profileImage || AllImages.profile}
+            src={currentRecord?.profileImage && currentRecord.profileImage.length > 0 ? serverUrl + currentRecord.profileImage : AllImages.profile}
             alt={currentRecord?.name}
             className="w-24 h-24 rounded-full object-cover border-2 border-secondary-color"
           />
@@ -55,6 +56,24 @@ const UserModal: React.FC<UserModalProps> = ({
             <h2 className="font-semibold text-gray-700">Location</h2>
             <p className="text-gray-600">
               {currentRecord?.candidateProfileId?.location}
+            </p>
+          </div>
+          <div>
+            <h2 className="font-semibold text-gray-700">Town</h2>
+            <p className="text-gray-600">
+              {currentRecord?.candidateProfileId?.area}
+            </p>
+          </div>
+          <div>
+            <h2 className="font-semibold text-gray-700">County</h2>
+            <p className="text-gray-600">
+              {currentRecord?.candidateProfileId?.county}
+            </p>
+          </div>
+          <div>
+            <h2 className="font-semibold text-gray-700">Postal Code</h2>
+            <p className="text-gray-600">
+              {currentRecord?.candidateProfileId?.postalCode}
             </p>
           </div>
           <div>
@@ -90,7 +109,7 @@ const UserModal: React.FC<UserModalProps> = ({
           <h2 className="font-semibold text-gray-700 mb-2">Skills</h2>
           <div className="flex flex-wrap gap-2">
             {(currentRecord?.candidateProfileId?.skills?.length as number) >
-            0 ? (
+              0 ? (
               currentRecord?.candidateProfileId?.skills.map((skill, idx) => (
                 <span
                   key={idx}

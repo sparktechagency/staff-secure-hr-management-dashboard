@@ -6,15 +6,16 @@ import { MdBlock } from "react-icons/md";
 import ReuseButton from "../Button/ReuseButton";
 import { IoMdEye } from "react-icons/io";
 import { CgUnblock } from "react-icons/cg";
+import { ICandidate } from "../../types";
 
 // Define the type for the props
 interface CandidatesTableProps {
-  data: any[]; // Replace `unknown` with the actual type of your data array
+  data: ICandidate[]; // Replace `unknown` with the actual type of your data array
   loading: boolean;
   showViewModal: (record: any) => void;
   showBlockModal: (record: any) => void;
   showUnblockModal: (record: any) => void;
-  showViewCVModal: (record: any) => void;
+  showViewCVModal: (data: any, record: any,) => void;
   setPage: (page: number) => void; // Function to handle pagination
   page: number;
   total: number;
@@ -33,6 +34,7 @@ const CandidatesTable: React.FC<CandidatesTableProps> = ({
   total,
   limit,
 }) => {
+  console.log(data)
   const columns = [
     {
       title: "ID",
@@ -62,7 +64,7 @@ const CandidatesTable: React.FC<CandidatesTableProps> = ({
       render: (phone: string) => <span>{phone || "N/A"}</span>,
     },
     {
-      title: "Designation",
+      title: "Occupation",
       dataIndex: ["candidateProfileId", "designation"],
       key: "designation",
       render: (role: string) => (
@@ -89,6 +91,21 @@ const CandidatesTable: React.FC<CandidatesTableProps> = ({
       ),
     },
     {
+      title: "Town",
+      dataIndex: ["candidateProfileId", "area"],
+      key: "area",
+    },
+    {
+      title: "County",
+      dataIndex: ["candidateProfileId", "county"],
+      key: "county",
+    },
+    {
+      title: "Postal Code",
+      dataIndex: ["candidateProfileId", "postalCode"],
+      key: "postalCode",
+    },
+    {
       title: "Experience",
       dataIndex: ["candidateProfileId", "yearsOfExperience"],
       key: "candidateProfileId.yearsOfExperience",
@@ -110,14 +127,37 @@ const CandidatesTable: React.FC<CandidatesTableProps> = ({
       title: "CV",
       key: "cv",
       align: "center" as const,
-      render: (_: any, record: any) => (
-        <ReuseButton
-          variant="secondary"
-          onClick={() => showViewCVModal(record?.candidateProfileId)}
-          className="!w-fit !py-2 !px-4"
-        >
-          View
-        </ReuseButton>
+      render: (_: any, record: any) =>
+        record?.candidateProfileId?.cv?.length > 0 ? (
+          <ReuseButton
+            variant="secondary"
+            onClick={() => showViewCVModal(record?.candidateProfileId, record?.candidateProfileId?.cv)}
+            className="!w-fit !py-2 !px-4"
+          >
+            View
+          </ReuseButton>
+        ) : "N/A"
+    },
+    {
+      title: "Document And Certifications",
+      key: "documentAndCertifications",
+      align: "center" as const,
+      width: 300,
+      render: (_: any, record: ICandidate) => (
+        <div className="flex gap-2 flex-wrap justify-center items-center">
+          {record?.candidateProfileId?.documentAndCertifications?.length > 0 ? record?.candidateProfileId?.documentAndCertifications?.map(
+            (doc: string) => (
+              <ReuseButton
+                key={doc}
+                variant="secondary"
+                onClick={() => showViewCVModal(record?.candidateProfileId, doc)}
+                className="!w-fit !py-2 !px-4"
+              >
+                View
+              </ReuseButton>
+            )
+          ) : <p className="text-center">N/A</p>}
+        </div>
       ),
     },
     {

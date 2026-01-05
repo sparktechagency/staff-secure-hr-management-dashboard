@@ -9,7 +9,7 @@ interface AppliedCandidatesTableProps {
   data: IAppliciantData[]; // Replace `unknown` with the actual type of your data array
   loading: boolean;
   setPage: (page: number) => void; // Function to handle pagination
-  openViewCVModal: (data: any) => void;
+  openViewCVModal: (data: any, doc: any) => void;
   sendDirectCVModal: (data: any) => void;
   page: number;
   total: number;
@@ -54,10 +54,31 @@ const AppliedCandidatesTable: React.FC<AppliedCandidatesTableProps> = ({
         <ReuseButton
           variant="outline"
           className="mt-3 !w-fit !py-1.5 !px-2"
-          onClick={() => openViewCVModal(candidateId)}
+          onClick={() => openViewCVModal(candidateId, candidateId.cv)}
         >
           View CV
         </ReuseButton>
+      ),
+    },
+    {
+      title: "Document And Certifications",
+      dataIndex: "candidateId",
+      key: "candidateId",
+      render: (_: any, record: any) => (
+        <div className="flex gap-2 flex-wrap justify-center items-center">
+          {record?.candidateId?.documentAndCertifications?.length > 0 ? record?.candidateId?.documentAndCertifications?.map(
+            (doc: string) => (
+              <ReuseButton
+                key={doc}
+                variant="outline"
+                onClick={() => openViewCVModal(record?.candidateId, doc)}
+                className="mt-3 !w-fit !py-2 !px-4"
+              >
+                View
+              </ReuseButton>
+            )
+          ) : <p className="text-center">N/A</p>}
+        </div>
       ),
     },
     {
