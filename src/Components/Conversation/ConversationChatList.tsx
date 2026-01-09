@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { Input } from "antd";
-import { useEffect, useState, useMemo, useCallback } from "react";
+import { useEffect, useState, useMemo, useCallback, useRef } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import { useGetConversationListQuery } from "../../redux/features/conversation/conversationApi";
 import { FadeLoader } from "react-spinners";
@@ -14,28 +14,41 @@ import {
 import { useSocket } from "../../context/socket-context";
 import { IConversation } from "../../types/conversation.type";
 
-const ConversationChatList = ({ userData, onlineUsers }: any) => {
+const ConversationChatList = ({ chatUserType, userData, onlineUsers }: any) => {
   const socket = useSocket()?.socket;
   const dispatch = useAppDispatch();
+  const chatUserTypeRef = useRef(chatUserType);
+
+  // Update ref whenever chatUserType changes
+  useEffect(() => {
+    chatUserTypeRef.current = chatUserType;
+  }, [chatUserType]);
 
   const [searchTerm, setSearchTerm] = useState("");
   const seletedConversation = useAppSelector(selectSelectedChatUser);
   const [chatList, setChatList] = useState<IConversation[]>([]);
 
-  console.log("chatList", searchTerm);
 
   const { data: allChatList, isFetching: isAllChatFeacthing } =
     useGetConversationListQuery(
       {
+        role: chatUserType,
         search: searchTerm,
       },
       {
         skip: !userData?.userId,
+        refetchOnMountOrArgChange: true,
       }
     );
 
+
   const handleNewMessage = useCallback((message: any) => {
     const { chatId, text, sender, time, images } = message;
+
+    if (chatUserTypeRef.current !== sender?.role) {
+      console.log("❌ Ignoring message - wrong role:", sender?.role);
+      return;
+    }
 
     // Find if this conversation already exists
     setChatList((prevChatList: IConversation[]) => {
@@ -80,7 +93,6 @@ const ConversationChatList = ({ userData, onlineUsers }: any) => {
   }, []);
 
   useEffect(() => {
-    console.log("🧠 Checking socket:", socket);
 
     if (!socket) {
       console.warn("❌ Socket not ready yet.");
@@ -91,11 +103,11 @@ const ConversationChatList = ({ userData, onlineUsers }: any) => {
       socket.connect();
     }
     socket.on(`newMessage`, (message: any) => {
-      console.log(" New Message Received from socket:", message);
+
       handleNewMessage(message);
+
     });
     socket.on("onlineUser", (online: any) => {
-      console.log("Online Users:", online);
       dispatch(setOnlineUsers(online));
     });
 
@@ -111,7 +123,7 @@ const ConversationChatList = ({ userData, onlineUsers }: any) => {
         console.log("📨New Message Off:", message);
       });
     };
-  }, [dispatch, handleNewMessage, socket, userData?.userId]);
+  }, [chatUserType, dispatch, handleNewMessage, socket, userData.userId]);
 
   useEffect(() => {
     if (allChatList?.data) {
@@ -133,9 +145,8 @@ const ConversationChatList = ({ userData, onlineUsers }: any) => {
 
   return (
     <div
-      className={`w-full lg:w-[400px] border-r-2 border-secondary-color/20 overflow-y-auto px-3 ${
-        seletedConversation ? "hidden lg:block" : "block lg:block"
-      }`}
+      className={`w-full lg:w-[400px] border-r-2 border-secondary-color/20 overflow-y-auto px-3 ${seletedConversation ? "hidden lg:block" : "block lg:block"
+        }`}
     >
       <div className="sticky top-0 z-20   py-5 mb-3 !bg-primary-color">
         <div className=" flex justify-between items-center pe-4  text-base sm:text-xl md:text-2xl lg:text-3xl text-secondary-color font-bold mt-3">

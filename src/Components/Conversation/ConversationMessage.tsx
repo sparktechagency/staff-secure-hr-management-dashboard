@@ -143,9 +143,8 @@ const ConversationMessage = ({ userData, onlineUsers }: any) => {
 
   return (
     <div
-      className={`w-full overflow-y-auto ${
-        selectedConversation ? "block lg:block" : "hidden lg:block"
-      }`}
+      className={`w-full overflow-y-auto ${selectedConversation ? "block lg:block" : "hidden lg:block"
+        }`}
     >
       {selectedConversation ? (
         <Layout className={` lg:col-span-3 xl:col-span-4 h-full`}>
@@ -162,12 +161,11 @@ const ConversationMessage = ({ userData, onlineUsers }: any) => {
                 <img
                   loading="lazy"
                   className="h-12 w-12 object-cover rounded-full"
-                  src={`${
+                  src={`${selectedConversation?.chat?.users?.[0]?.profileImage
+                    ? imageUrl +
                     selectedConversation?.chat?.users?.[0]?.profileImage
-                      ? imageUrl +
-                        selectedConversation?.chat?.users?.[0]?.profileImage
-                      : AllImages?.cover
-                  }`}
+                    : AllImages?.profile
+                    }`}
                   alt="Profile"
                 />
                 <div>
@@ -177,8 +175,8 @@ const ConversationMessage = ({ userData, onlineUsers }: any) => {
                       {onlineUsers.includes(
                         selectedConversation?.chat?.users?.[0]?._id
                       ) && (
-                        <div className="size-2 rounded-full bg-green-500"></div>
-                      )}
+                          <div className="size-2 rounded-full bg-green-500"></div>
+                        )}
                     </Tooltip>
                   </span>
                 </div>

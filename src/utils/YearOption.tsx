@@ -20,7 +20,7 @@ const YearOption: React.FC<YearOptionProps> = ({
   const [yearOptions, setYearOptions] = useState<YearOption[]>([]); // Type state as an array of YearOption objects
 
   useEffect(() => {
-    const startYear = 2025;
+    const startYear = 2026;
     const yearRange: YearOption[] = [];
 
     // Add the years to the list
@@ -54,7 +54,7 @@ const YearOption: React.FC<YearOptionProps> = ({
       }}
     >
       <Select
-        defaultValue={currentYear >= 2025 ? "2025" : currentYear.toString()}
+        defaultValue={currentYear}
         style={{ width: 100 }}
         options={yearOptions}
         onChange={(value) => setThisYear(value)}

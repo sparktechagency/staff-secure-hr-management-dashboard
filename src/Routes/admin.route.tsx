@@ -1,8 +1,11 @@
 //* ------------------ICONS------------------
 import dashboardLogo from "/images/dashboard-logo/dashboard.svg";
 import userLogo from "/images/dashboard-logo/user.svg";
-import messageLogo from "/images/dashboard-logo/message.svg";
-// import documentationLogo from "/images/dashboard-logo/documentation.svg";
+import earningLogo from "/images/dashboard-logo/earning.svg";
+import currentVacancies from "/images/dashboard-logo/currentVacancies.svg";
+import cvDispatchLogo from "/images/dashboard-logo/cvDispatch.svg";
+import messageLogo from "/images/dashboard-logo/messageLogo.svg";
+import placementLogo from "/images/dashboard-logo/placement.svg";
 import settingsLogo from "/images/dashboard-logo/settings.svg";
 
 //* ------------------IMPORT COMPONENTS------------------
@@ -47,14 +50,14 @@ export const adminPaths = [
     element: <AdminAllJobBoard />,
     key: "job-board",
     name: "Current Vancancies",
-    icon: userLogo,
+    icon: currentVacancies,
   },
   {
     path: "cv-dispatch",
     element: <AdminAllCvDispathc />,
     key: "cv-dispatch",
     name: "CV Dispatch",
-    icon: userLogo,
+    icon: cvDispatchLogo,
   },
 
   {
@@ -62,20 +65,27 @@ export const adminPaths = [
     element: <AdminAllPlacement />,
     key: "placement",
     name: "Placement",
-    icon: userLogo,
+    icon: placementLogo,
   },
   {
     path: "payment-received",
     element: <AdminAllTransaction />,
     key: "payment-received",
     name: "Payment Received",
-    icon: userLogo,
+    icon: earningLogo,
   },
   {
-    path: "live-chat",
-    element: <ConversationPage />,
-    key: "live-chat",
-    name: "Live Chat",
+    path: "employers-live-chat",
+    element: <ConversationPage chatUserType="employer" />,
+    key: "employers-live-chat",
+    name: "Employers Live Chat",
+    icon: messageLogo,
+  },
+  {
+    path: "candidates-live-chat",
+    element: <ConversationPage chatUserType="candidate" />,
+    key: "candidates-live-chat",
+    name: "Candidates Live Chat",
     icon: messageLogo,
   },
   // {

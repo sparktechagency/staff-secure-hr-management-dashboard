@@ -4,11 +4,12 @@ import { tagTypes } from "../../tagTypes";
 const conversationApi = baseApi.injectEndpoints({
   endpoints: (build) => ({
     getConversationList: build.query({
-      query: ({ page, limit = 1000000, search }) => {
+      query: ({ page, limit = 1000000, role, search }) => {
         return {
-          url: `/chat/my-chat-list`,
+          url: `/chat/admin/my-chat-list`,
           method: "GET",
           params: {
+            role,
             page,
             limit,
             search,

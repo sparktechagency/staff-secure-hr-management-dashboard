@@ -3,6 +3,7 @@ interface IConversationUser {
   email: string;
   name: string;
   profileImage: string;
+  role: string;
 }
 
 interface IConversationInfo {
