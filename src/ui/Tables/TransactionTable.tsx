@@ -28,8 +28,8 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   const columns = [
     {
       title: "UID",
-      dataIndex: "id",
-      key: "id",
+      dataIndex: "_id",
+      key: "_id",
       render: (_: any, __: any, index: number) =>
         page * limit - limit + index + 1,
     },
@@ -73,9 +73,8 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
 
         return (
           <span
-            className={`px-3 py-1 rounded-full text-xs font-medium ${
-              colors[record.subscriptionType] || "bg-gray-100 text-gray-800"
-            }`}
+            className={`px-3 py-1 rounded-full text-xs font-medium ${colors[record.subscriptionType] || "bg-gray-100 text-gray-800"
+              }`}
           >
             {record.subscriptionType}
           </span>

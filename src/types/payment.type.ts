@@ -1,27 +1,32 @@
-interface Employer {
+interface EmployerId {
   _id: string;
   name: string;
-  companyName: string;
   email: string;
+  companyName: string;
   phone: string;
+  stipeCustomerId: string;
 }
 
 interface ISubscription {
   _id: string;
-  employerId: Employer;
-  subscriptionType: string; // e.g. "Platinum"
+  employerId: EmployerId;
+  subscriptionType: string;
   durationInMonths: number;
   amount: number;
   discount: number;
   finalAmount: number;
   paymentId: string;
-  paymentMethod: string; // e.g. "card"
-  buyTime: string; // ISO date string
-  expireDate: string; // ISO date string
-  status: "success" | "pending" | "failed";
+  paymentMethod: string;
+  buyTime: string;
+  expireDate: string;
+  status: string;
   isDeleted: boolean;
-  createdAt: string; // ISO date string
-  updatedAt: string; // ISO date string
+  isRenewal: boolean;
+  stripeInvoiceId: string;
+  stripeHostedInvoiceUrl: string;
+  createdAt: string;
+  updatedAt: string;
+  subscriptionId: string;
 }
 
 export type { ISubscription };
