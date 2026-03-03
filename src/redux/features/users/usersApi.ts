@@ -29,6 +29,14 @@ const UsersApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: [tagTypes.user],
     }),
+    createCandidateProfile: builder.mutation({
+      query: (req) => ({
+        url: "/users/create-candidate-profile",
+        method: "POST",
+        body: req.body,
+      }),
+      invalidatesTags: [tagTypes.user],
+    }),
   }),
 });
 
@@ -37,4 +45,5 @@ export const {
   useGetAllEmployersQuery,
   useGetAllCandidatesQuery,
   useBlockAndUnblockUserMutation,
+  useCreateCandidateProfileMutation,
 } = UsersApi;

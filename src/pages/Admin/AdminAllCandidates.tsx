@@ -9,6 +9,8 @@ import {
 import { ICandidate } from "../../types";
 import ViewCVModal from "../../ui/Modal/Job/ViewCVmodal";
 import UserModal from "../../ui/Modal/User/UserModal";
+import AddCandidateModal from "../../ui/Modal/User/AddCandidateModal";
+import ReuseButton from "../../ui/Button/ReuseButton";
 import tryCatchWrapper from "../../utils/tryCatchWrapper";
 import BlockModal from "../../ui/Modal/BlockModal";
 import UnblockModal from "../../ui/Modal/UnblockModal";
@@ -43,10 +45,13 @@ const AdminAllCandidates = () => {
   const totalData = data?.data?.meta?.total || 0;
   const allCandidates: ICandidate[] = data?.data?.result;
 
+  const [isAddModalVisible, setIsAddModalVisible] = useState(false);
   const [isBlockModalVisible, setIsBlockModalVisible] = useState(false);
   const [isUnblockModalVisible, setIsUnblockModalVisible] = useState(false);
   const [currentRecord, setCurrentRecord] = useState<any>(null);
   const [url, setUrl] = useState(null);
+
+  const showAddModal = () => setIsAddModalVisible(true);
 
   const showViewModal = (data: any) => {
     setIsViewModalVisible(true);
@@ -70,6 +75,7 @@ const AdminAllCandidates = () => {
   };
 
   const handleCancel = () => {
+    setIsAddModalVisible(false);
     setIsViewModalVisible(false);
     setIsViewCVModalVisible(false);
     setIsBlockModalVisible(false);
@@ -112,9 +118,14 @@ const AdminAllCandidates = () => {
   return (
     <div className=" bg-primary-color rounded-xl p-4 min-h-[90vh]">
       <div className="flex flex-col gap-10 mx-3 py-2 mb-5">
-        <p className="text-xl sm:text-2xl lg:text-3xl text-base-color font-bold ">
-          Candidates
-        </p>
+        <div className="flex items-center justify-between">
+          <p className="text-xl sm:text-2xl lg:text-3xl text-base-color font-bold">
+            Candidates
+          </p>
+          <ReuseButton variant="secondary" className="!w-fit" onClick={showAddModal}>
+            + Add Candidate
+          </ReuseButton>
+        </div>
         <div className="h-fit flex gap-2 items-center">
           <div>
             <Typography.Title
@@ -195,6 +206,10 @@ const AdminAllCandidates = () => {
         handleCancel={handleCancel}
         currentRecord={currentRecord}
         url={url || ""}
+      />
+      <AddCandidateModal
+        isAddModalVisible={isAddModalVisible}
+        handleCancel={handleCancel}
       />
     </div>
   );
