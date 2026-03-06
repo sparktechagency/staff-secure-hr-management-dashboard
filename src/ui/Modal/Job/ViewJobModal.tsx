@@ -15,42 +15,71 @@ const ViewJobModal = ({
   currentRecord: IJob;
 }) => {
 
+
   const annualPay = currentRecord?.paymentType === "Monthly"
     ? "£" + currentRecord?.salaryRange?.min * 12 + " - " + "£" + currentRecord?.salaryRange?.max * 12
     : "£" + currentRecord?.salaryRange?.min * currentRecord?.hourlyRequired * 52 + " - " + "£" + currentRecord?.salaryRange?.max * currentRecord?.hourlyRequired * 52;
 
   const information = [
     {
-      name: "County",
-      value: currentRecord?.county,
+      name: "Job Referral Code",
+      value: currentRecord?.jobReferralCode,
+    },
+    {
+      name: "Status",
+      value: currentRecord?.status,
+    },
+    {
+      name: "Employer",
+      value: currentRecord?.employerId?.name,
+    },
+    {
+      name: "Company",
+      value: currentRecord?.employerId?.companyName,
+    },
+    {
+      name: "Employer Email",
+      value: currentRecord?.employerId?.email,
     },
     {
       name: "Payment Period",
       value: currentRecord?.paymentType,
     },
     {
-      name: "Annual pay",
+      name: "Salary Range",
+      value: `£${currentRecord?.salaryRange?.min} - £${currentRecord?.salaryRange?.max} per ${currentRecord?.paymentType?.toLowerCase() === "weekly" ? "hour" : "month"}`,
+    },
+    {
+      name: "Annual Pay",
       value: annualPay,
     },
     {
       name: "Overtime Pay Rate",
-      value: `£${currentRecord?.overtimePayRate} per hour`,
+      value: currentRecord?.overtimePayRate ? `£${currentRecord?.overtimePayRate} per hour` : "N/A",
     },
     {
       name: "Hours Required per week",
       value: currentRecord?.hourlyRequired,
     },
     {
+      name: "Experience Required",
+      value: `${currentRecord?.experience} year${currentRecord?.experience !== 1 ? "s" : ""}`,
+    },
+    {
       name: "Start Date",
       value: formatDate(currentRecord?.startDate),
     },
     {
-      name: "Working hours",
+      name: "Last Apply Date",
+      value: formatDate(currentRecord?.lastApplyDate),
+    },
+    {
+      name: "Working Hours",
       value: currentRecord?.startTime + " - " + currentRecord?.finishTime,
     },
     {
       name: "Working Days",
-      value: currentRecord?.daysOfWork?.join(", ")
+      value: currentRecord?.daysOfWork?.join(", "),
     },
   ]
 
