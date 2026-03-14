@@ -37,13 +37,11 @@ const JobBoardTable: React.FC<JobBoardTableProps> = ({
       key: "_id",
       render: (_: unknown, __: unknown, index: number) =>
         page * limit - limit + index + 1,
-      fixed: "left",
     },
     {
       title: "Candidate Required For",
       dataIndex: "title",
       key: "title",
-      fixed: "left",
     },
     {
       title: "Employer Information",
